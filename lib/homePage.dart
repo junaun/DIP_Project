@@ -1,4 +1,6 @@
 import 'package:calculator/displayBox.dart';
+import 'package:calculator/containerHistory.dart';
+import 'package:calculator/services/colorController.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -7,16 +9,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ColorController colorController = new ColorController();
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
         appBar: AppBar(
           title: Text("Smart Calculator"),
-          backgroundColor: Colors.black38,
+          backgroundColor: colorController.color,
         ),
         body: Column(children: <Widget>[
-          Expanded(child: DisplayBox(), flex: 1),
+          //Expanded(child: containerHistory(), flex: 3),
+          // Expanded(
+          //     child: TextButton(
+          //   child: Text("change towhite"),
+          //   onPressed: () {
+          //     setState(() {
+          //       colorController.changeColor("white");
+          //     });
+          //   },
+          // )),
+          // Expanded(
+          //     child: TextButton(
+          //   child: Text("change toblack"),
+          //   onPressed: () {
+          //     setState(() {
+          //       colorController.changeColor("black");
+          //     });
+          //   },
+          // )),
+          // Expanded(
+          //   child: Text(colorController.color.toString()),
+          // ),
+          Expanded(child: DisplayBox(), flex: 2),
           Expanded(
             flex: 2,
             child: Container(

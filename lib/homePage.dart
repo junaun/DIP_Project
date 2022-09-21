@@ -1,6 +1,7 @@
 import 'package:calculator/buttonBox.dart';
 import 'package:calculator/displayBox.dart';
 import 'package:calculator/containerHistory.dart';
+import 'package:calculator/equations.dart';
 import 'package:calculator/services/colorController.dart';
 import 'package:calculator/services/displayStrController.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,10 @@ class _HomePageState extends State<HomePage> {
             }, onSelected: (value) {
               if (value == 0) {
                 print("equation solver is selected.");
+                 Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const EquationApp()),
+            );
               } else if (value == 1) {
                 print("matrix calculation is selected.");
               } else if (value == 2) {

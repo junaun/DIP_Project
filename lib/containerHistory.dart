@@ -1,13 +1,15 @@
 import 'dart:ui';
-
+import "package:calculator/services/displayStrController.dart";
 import 'package:flutter/material.dart';
 
-class containerHistory extends StatefulWidget {
+class ContainerHistory extends StatefulWidget {
+  late DisplayStrController strController;
+  ContainerHistory(this.strController);
   @override
-  _containerHistoryState createState() => _containerHistoryState();
+  containerHistoryState createState() => containerHistoryState();
 }
 
-class _containerHistoryState extends State<containerHistory> {
+class containerHistoryState extends State<ContainerHistory> {
   late TextEditingController _num1FieldController, _num2FieldController;
   late String _messageToUser;
   final _saved = [];

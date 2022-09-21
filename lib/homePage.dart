@@ -1,6 +1,8 @@
+import 'package:calculator/buttonBox.dart';
 import 'package:calculator/displayBox.dart';
 import 'package:calculator/containerHistory.dart';
 import 'package:calculator/services/colorController.dart';
+import 'package:calculator/services/displayStrController.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,7 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ColorController colorController = new ColorController();
+  ColorController colorController = ColorController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,6 +20,41 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text("Smart Calculator"),
           backgroundColor: colorController.color,
+          actions: [
+            PopupMenuButton(
+                // add icon, by default "3 dot" icon
+                // icon: Icon(Icons.book)
+                itemBuilder: (context) {
+              return [
+                PopupMenuItem<int>(
+                  value: 0,
+                  child: Text("Equation Solver"),
+                ),
+                PopupMenuItem<int>(
+                  value: 1,
+                  child: Text("Matrix Calculation"),
+                ),
+                PopupMenuItem<int>(
+                  value: 2,
+                  child: Text("Graph Plotting"),
+                ),
+                PopupMenuItem<int>(
+                  value: 3,
+                  child: Text("Unit Conversion"),
+                ),
+              ];
+            }, onSelected: (value) {
+              if (value == 0) {
+                print("equation solver is selected.");
+              } else if (value == 1) {
+                print("matrix calculation is selected.");
+              } else if (value == 2) {
+                print("graph plotting is selected.");
+              } else if (value == 3) {
+                print("unitconversion is selected.");
+              }
+            }),
+          ],
         ),
         body: Column(children: <Widget>[
           //Expanded(child: containerHistory(), flex: 3),
@@ -41,16 +79,7 @@ class _HomePageState extends State<HomePage> {
           // Expanded(
           //   child: Text(colorController.color.toString()),
           // ),
-          Expanded(child: DisplayBox(), flex: 2),
-          Expanded(
-            flex: 2,
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              margin: EdgeInsets.all(10),
-              child: Text("This is the keypad"),
-              color: Colors.black45,
-            ),
-          )
+          Expanded(child: DisplayBox(), flex: 4),
         ]),
         drawer: Drawer(
           backgroundColor: Colors.black38,

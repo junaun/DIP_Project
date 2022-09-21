@@ -1,9 +1,11 @@
 import 'package:calculator/buttonBox.dart';
+import 'package:calculator/differntaition.dart';
 import 'package:calculator/displayBox.dart';
 import 'package:calculator/containerHistory.dart';
 import 'package:calculator/equations.dart';
 import 'package:calculator/services/colorController.dart';
 import 'package:calculator/services/displayStrController.dart';
+import 'package:calculator/unitConv.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,8 +57,16 @@ class _HomePageState extends State<HomePage> {
                 print("matrix calculation is selected.");
               } else if (value == 2) {
                 print("graph plotting is selected.");
+                Navigator.push(
+                context,
+               MaterialPageRoute(builder: (context) => const DeriveApp()),
+            );
               } else if (value == 3) {
                 print("unitconversion is selected.");
+                Navigator.push(
+                context,
+               MaterialPageRoute(builder: (context) => const Convertor()),
+            );
               }
             }),
           ],

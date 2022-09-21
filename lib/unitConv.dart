@@ -10,11 +10,11 @@ import 'package:units_converter/units_converter.dart';
 // Create dart files to write various code on different pages
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Convertor());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Convertor extends StatelessWidget {
+  const Convertor({Key? key}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

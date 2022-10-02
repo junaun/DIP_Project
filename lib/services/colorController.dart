@@ -1,7 +1,7 @@
 import 'package:calculator/displayBox.dart';
 import 'package:flutter/material.dart';
 
-class ColorController {
+class ColorController extends ChangeNotifier {
   Color color = Colors.black;
 
   colorController(Color color) {
@@ -15,5 +15,6 @@ class ColorController {
     if (newcolor == "white") {
       color = Colors.white;
     }
+    notifyListeners();
   }
 }

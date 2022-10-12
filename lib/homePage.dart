@@ -4,6 +4,7 @@ import 'package:calculator/displayBox.dart';
 import 'package:calculator/containerHistory.dart';
 import 'package:calculator/drawer.dart';
 import 'package:calculator/equations.dart';
+import 'package:calculator/plotting/Plotted_type.dart';
 import 'package:calculator/services/colorController.dart';
 import 'package:calculator/services/displayStrController.dart';
 import 'package:calculator/unitConv.dart';
@@ -61,7 +62,8 @@ class _HomePageState extends State<HomePage> {
                   print("graph plotting is selected.");
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const DeriveApp()),
+                    MaterialPageRoute(
+                        builder: (context) => const Typeselection()),
                   );
                 } else if (value == 3) {
                   print("unitconversion is selected.");

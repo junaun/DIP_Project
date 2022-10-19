@@ -81,7 +81,14 @@ class SideBar extends StatelessWidget {
               title: const Text("Big Font Size"),
               onTap: () {
                 Provider.of<FontProvider>(context, listen: false)
-                    .changeFontSize(5);
+                    .changeFontSize(25);
+              },
+            ),
+            ListTile(
+              title: const Text("Small Font Size"),
+              onTap: () {
+                Provider.of<FontProvider>(context, listen: false)
+                    .changeFontSize(10);
               },
             ),
             ListTile(

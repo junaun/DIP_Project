@@ -8,6 +8,36 @@ import 'package:provider/provider.dart';
 import 'package:calculator/services/colorProvider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+colorPicker(context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Pick a color!'),
+        content: SingleChildScrollView(
+          child: ColorPicker(
+            pickerColor: Colors.blue, //default color
+            onColorChanged: (Color color) {
+              //on color picked
+
+              Provider.of<ColorProvider>(context, listen: false)
+                  .changeColor(color);
+            },
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: const Text('DONE'),
+            onPressed: () {
+              Navigator.of(context).pop(); //dismiss the color picker
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 class SideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
@@ -19,7 +49,7 @@ class SideBar extends StatelessWidget {
               Provider.of<ColorProvider>(context).color,
               Colors.blueAccent
             ])),
-            child: Text('Functions',
+            child: Text('Settings',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontSize: 25.0))),
         ExpansionTile(
@@ -31,37 +61,10 @@ class SideBar extends StatelessWidget {
             ListTile(
                 title: const Text("Color Picker"),
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Pick a color!'),
-                        content: SingleChildScrollView(
-                          child: ColorPicker(
-                            pickerColor: Colors.blue, //default color
-                            onColorChanged: (Color color) {
-                              //on color picked
-
-                              Provider.of<ColorProvider>(context, listen: false)
-                                  .changeColor(color);
-                            },
-                          ),
-                        ),
-                        actions: <Widget>[
-                          ElevatedButton(
-                            child: const Text('DONE'),
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pop(); //dismiss the color picker
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  colorPicker(context);
                 }),
             ListTile(
-              title: const Text("Pythagaros"),
+              title: const Text("Mode"),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -69,19 +72,19 @@ class SideBar extends StatelessWidget {
           ],
         ),
         ExpansionTile(
-          title: const Text("Graphic Calculator"),
+          title: const Text("Fonts"),
           leading: const Icon(Icons.show_chart),
           trailing: const Icon(Icons.arrow_drop_down),
           childrenPadding: const EdgeInsets.only(left: 60),
           children: [
             ListTile(
-              title: const Text("Plot"),
+              title: const Text("Font Size"),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              title: const Text("Child Category 2"),
+              title: const Text("Font Style"),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -89,25 +92,35 @@ class SideBar extends StatelessWidget {
           ],
         ),
         ExpansionTile(
-          title: const Text("Settings"),
-          leading: const Icon(Icons.settings),
+          title: const Text("Language"),
+          leading: const Icon(Icons.language),
           trailing: const Icon(Icons.arrow_drop_down),
           childrenPadding: const EdgeInsets.only(left: 60),
           children: [
             ListTile(
-              title: const Text("Dark mode"),
+              title: const Text("Change Language"),
               leading: const Icon(
-                Icons.dark_mode,
+                Icons.language,
               ),
               onTap: () {
                 ;
               },
             ),
+          ],
+        ),
+        ExpansionTile(
+          title: const Text("Exam Mode"),
+          leading: const Icon(Icons.school),
+          trailing: const Icon(Icons.arrow_drop_down),
+          childrenPadding: const EdgeInsets.only(left: 60),
+          children: [
             ListTile(
-              title: const Text("Font Size"),
-              leading: const Icon(Icons.format_size),
+              title: const Text("Exam Mode"),
+              leading: const Icon(
+                Icons.school,
+              ),
               onTap: () {
-                Navigator.pop(context);
+                ;
               },
             ),
           ],

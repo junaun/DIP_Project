@@ -23,13 +23,13 @@ class SideBar extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontSize: 25.0))),
         ExpansionTile(
-          title: const Text('Color Settings'),
+          title: const Text('Themes'),
           leading: const Icon(Icons.functions),
           trailing: const Icon(Icons.arrow_drop_down),
           childrenPadding: const EdgeInsets.only(left: 60),
           children: [
             ListTile(
-                title: const Text("Quadratic"),
+                title: const Text("Color Picker"),
                 onTap: () {
                   showDialog(
                     context: context,

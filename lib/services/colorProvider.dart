@@ -10,6 +10,8 @@ class ColorProvider with ChangeNotifier {
     this.color = color;
   }
 
+  toggleDarkMode() {}
+
   getColor() {
     return this.color;
     //notifyListeners();

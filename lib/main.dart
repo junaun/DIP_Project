@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<ColorProvider>(create: (_) => ColorProvider()),
           ChangeNotifierProvider<FontProvider>(create: (_) => FontProvider()),
           ChangeNotifierProvider<LangProvider>(create: (_) => LangProvider()),
+          ChangeNotifierProvider<LockProvider>(create: (_) => LockProvider()),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

@@ -6,7 +6,7 @@ class LangProvider with ChangeNotifier {
   String plotBar = "Plot Functions";
   String settingBar = "Settings";
 
-  LangController(int newSize) {}
+  colorController(int newSize) {}
 
   change2SCN() {
     homeBar = "大聪明计算器";

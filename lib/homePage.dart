@@ -7,10 +7,11 @@ import 'package:calculator/equations.dart';
 import 'package:calculator/plotting/Plotted_type.dart';
 import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/FontProvider.dart';
+import 'package:calculator/services/LockProvider.dart';
 import 'package:calculator/services/LangProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:calculator/services/displayStrController.dart';
 import 'package:calculator/unitConv.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -138,12 +139,28 @@ class _HomePageState extends State<HomePage> {
                 ];
               }, onSelected: (value) {
                 if (value == 0) {
-                  print("equation solver is selected.");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const EquationApp()),
-                  );
+                  if (Provider.of<LockProvider>(context, listen: false)
+                      .getLockEquation()) {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Access Denied'),
+                        content: const Text('Equation is locked'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EquationApp()),
+                    );
+                  }
                 } else if (value == 1) {
                   Provider.of<ColorProvider>(context, listen: false)
                       .changeColor(Colors.white);

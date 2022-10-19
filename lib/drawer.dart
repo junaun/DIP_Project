@@ -1,3 +1,6 @@
+import 'package:calculator/services/LangProvider.dart';
+import 'package:calculator/services/LockProvider.dart';
+
 import 'containerHistory.dart';
 import 'buttonBox.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +76,7 @@ class SideBar extends StatelessWidget {
         ),
         ExpansionTile(
           title: const Text("Fonts"),
-          leading: const Icon(Icons.show_chart),
+          leading: const Icon(Icons.sort_by_alpha),
           trailing: const Icon(Icons.arrow_drop_down),
           childrenPadding: const EdgeInsets.only(left: 60),
           children: [
@@ -112,7 +115,7 @@ class SideBar extends StatelessWidget {
                 Icons.language,
               ),
               onTap: () {
-                ;
+                Provider.of<LangProvider>(context, listen: false).change2SCN();
               },
             ),
           ],
@@ -124,12 +127,23 @@ class SideBar extends StatelessWidget {
           childrenPadding: const EdgeInsets.only(left: 60),
           children: [
             ListTile(
-              title: const Text("Exam Mode"),
+              title: const Text("lock"),
               leading: const Icon(
                 Icons.school,
               ),
               onTap: () {
-                ;
+                Provider.of<LockProvider>(context, listen: false)
+                    .lockEquation();
+              },
+            ),
+            ListTile(
+              title: const Text("unlock"),
+              leading: const Icon(
+                Icons.school,
+              ),
+              onTap: () {
+                Provider.of<LockProvider>(context, listen: false)
+                    .unlockEquation();
               },
             ),
           ],

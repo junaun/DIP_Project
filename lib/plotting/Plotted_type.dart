@@ -5,6 +5,10 @@ import 'Quadratic_plot.dart';
 import 'Cubic_plot.dart';
 import 'Quartic_plot.dart';
 import 'Complicated_plot.dart';
+import 'package:calculator/services/ColorProvider.dart';
+import 'package:calculator/services/FontProvider.dart';
+import 'package:calculator/services/LangProvider.dart';
+import 'package:provider/provider.dart';
 
 class Typeselection extends StatefulWidget {
   const Typeselection({Key? key}) : super(key: key);
@@ -18,7 +22,7 @@ class TypeselectionState extends State<Typeselection> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Function Types"),
+        title: Text(Provider.of<LangProvider>(context).plotBar),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),

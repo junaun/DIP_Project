@@ -1,11 +1,9 @@
-import 'package:calculator/services/colorProvider.dart';
-import 'package:calculator/services/displayStrController.dart';
-
 import 'containerHistory.dart';
 import 'buttonBox.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:calculator/services/colorProvider.dart';
+import 'package:calculator/services/ColorProvider.dart';
+import 'package:calculator/services/FontProvider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 colorPicker(context) {
@@ -51,7 +49,9 @@ class SideBar extends StatelessWidget {
             ])),
             child: Text('Settings',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 25.0))),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Provider.of<FontProvider>(context).fontSize))),
         ExpansionTile(
           title: const Text('Themes'),
           leading: const Icon(Icons.functions),
@@ -64,7 +64,7 @@ class SideBar extends StatelessWidget {
                   colorPicker(context);
                 }),
             ListTile(
-              title: const Text("Mode"),
+              title: const Text("Mode Toggle"),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -78,15 +78,17 @@ class SideBar extends StatelessWidget {
           childrenPadding: const EdgeInsets.only(left: 60),
           children: [
             ListTile(
-              title: const Text("Font Size"),
+              title: const Text("Big Font Size"),
               onTap: () {
-                Navigator.pop(context);
+                Provider.of<FontProvider>(context, listen: false)
+                    .changeFontSize(5);
               },
             ),
             ListTile(
-              title: const Text("Font Style"),
+              title: const Text("Change Font Style"),
               onTap: () {
-                Navigator.pop(context);
+                Provider.of<FontProvider>(context, listen: false)
+                    .changeFontFamily("Regular");
               },
             ),
           ],

@@ -12,7 +12,7 @@ class ColorProvider with ChangeNotifier {
 
   getColor() {
     return this.color;
-    notifyListeners();
+    //notifyListeners();
   }
 
   changeFontSize(int newSize) {

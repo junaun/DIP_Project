@@ -5,8 +5,9 @@ import 'package:calculator/containerHistory.dart';
 import 'package:calculator/drawer.dart';
 import 'package:calculator/equations.dart';
 import 'package:calculator/plotting/Plotted_type.dart';
-import 'package:calculator/services/colorController.dart';
-import 'package:calculator/services/colorProvider.dart';
+import 'package:calculator/services/ColorProvider.dart';
+import 'package:calculator/services/FontProvider.dart';
+import 'package:calculator/services/LangProvider.dart';
 import 'package:calculator/services/displayStrController.dart';
 import 'package:calculator/unitConv.dart';
 import 'package:provider/provider.dart';
@@ -103,14 +104,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ColorController colorController = ColorController();
-
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
           appBar: AppBar(
-            title: Text(Provider.of<ColorProvider>(context).name),
+            title: Text(Provider.of<LangProvider>(context).homeBar,
+                style: TextStyle(
+                    fontSize: Provider.of<FontProvider>(context).fontSize)),
             backgroundColor: Provider.of<ColorProvider>(context).getColor(),
             actions: [
               PopupMenuButton(

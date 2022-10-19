@@ -41,6 +41,7 @@ dependencies:
   webview_flutter_plus: ^0.3.0+2
   syncfusion_flutter_charts: ^20.3.47
   flutter_colorpicker: ^1.0.3
+  equations: ^4.1.0
 
 
 dev_dependencies:

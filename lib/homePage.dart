@@ -2,7 +2,7 @@ import 'package:calculator/buttonBox.dart';
 import 'package:calculator/diffrentiation.dart';
 import 'package:calculator/displayBox.dart';
 import 'package:calculator/containerHistory.dart';
-import 'package:calculator/drawer.dart';
+import 'package:calculator/settings.dart';
 import 'package:calculator/equations.dart';
 import 'package:calculator/plotting/Plotted_type.dart';
 import 'package:calculator/services/ColorProvider.dart';

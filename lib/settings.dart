@@ -50,7 +50,7 @@ class SideBar extends StatelessWidget {
               Provider.of<ColorProvider>(context).color,
               Colors.blueAccent
             ])),
-            child: Text('Settings',
+            child: Text(Provider.of<LangProvider>(context).settingBar,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.white,
@@ -110,7 +110,16 @@ class SideBar extends StatelessWidget {
           childrenPadding: const EdgeInsets.only(left: 60),
           children: [
             ListTile(
-              title: const Text("Change Language"),
+              title: const Text("English"),
+              leading: const Icon(
+                Icons.language,
+              ),
+              onTap: () {
+                Provider.of<LangProvider>(context, listen: false).change2EN();
+              },
+            ),
+            ListTile(
+              title: const Text("简体中文"),
               leading: const Icon(
                 Icons.language,
               ),

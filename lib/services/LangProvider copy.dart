@@ -9,7 +9,7 @@ class LangProvider with ChangeNotifier {
   colorController(int newSize) {}
 
   change2SCN() {
-    homeBar = "大聪明计算器";
+    homeBar = "聪明计算器";
     plotBar = "函数画图";
     settingBar = "设置";
     notifyListeners();

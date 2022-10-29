@@ -1,5 +1,7 @@
+import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/services/LangProvider.dart';
 import 'package:calculator/services/LockProvider.dart';
+import 'package:units_converter/properties/torque.dart';
 
 import 'containerHistory.dart';
 import 'buttonBox.dart';
@@ -153,6 +155,34 @@ class SideBar extends StatelessWidget {
               onTap: () {
                 Provider.of<LockProvider>(context, listen: false)
                     .unlockEquation();
+              },
+            ),
+          ],
+        ),
+        ExpansionTile(
+          title: const Text("Angle Unit"),
+          leading: const Icon(Icons.text_rotation_angledown),
+          trailing: const Icon(Icons.arrow_drop_down),
+          childrenPadding: const EdgeInsets.only(left: 60),
+          children: [
+            ListTile(
+              title: const Text("Rad"),
+              leading: const Icon(
+                Icons.r_mobiledata,
+              ),
+              onTap: () {
+                Provider.of<SettingModel>(context, listen: false)
+                    .changeRadMode(true);
+              },
+            ),
+            ListTile(
+              title: const Text("degree"),
+              leading: const Icon(
+                Icons.rotate_90_degrees_ccw,
+              ),
+              onTap: () {
+                Provider.of<SettingModel>(context, listen: false)
+                    .changeRadMode(false);
               },
             ),
           ],

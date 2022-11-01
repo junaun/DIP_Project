@@ -41,153 +41,193 @@ colorPicker(context) {
   );
 }
 
-class SideBar extends StatelessWidget {
+class SideBar extends StatefulWidget {
+  @override
+  _SideBarState createState() => _SideBarState();
+}
+
+class _SideBarState extends State<SideBar> {
+  double myvalue = 0;
   Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(
-          child: ListView(padding: EdgeInsets.zero, children: <Widget>[
-        DrawerHeader(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(colors: <Color>[
-              Provider.of<ColorProvider>(context).color,
-              Colors.blueAccent
-            ])),
-            child: Text(Provider.of<LangProvider>(context).settingBar,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Provider.of<FontProvider>(context).fontSize))),
-        ExpansionTile(
-          title: const Text('Themes'),
-          leading: const Icon(Icons.functions),
-          trailing: const Icon(Icons.arrow_drop_down),
-          childrenPadding: const EdgeInsets.only(left: 60),
-          children: [
-            ListTile(
-                title: const Text("Color Picker"),
+          child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: <Color>[
+                Provider.of<ColorProvider>(context).color,
+                Colors.blueAccent
+              ])),
+              child: Text(Provider.of<LangProvider>(context).settingBar,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: Provider.of<FontProvider>(context).fontSize))),
+          ExpansionTile(
+            title: const Text('Themes'),
+            leading: const Icon(Icons.functions),
+            trailing: const Icon(Icons.arrow_drop_down),
+            childrenPadding: const EdgeInsets.only(left: 60),
+            children: [
+              ListTile(
+                  title: const Text("Color Picker"),
+                  onTap: () {
+                    colorPicker(context);
+                  }),
+              ListTile(
+                title: const Text("Mode Toggle"),
                 onTap: () {
-                  colorPicker(context);
-                }),
-            ListTile(
-              title: const Text("Mode Toggle"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-        ExpansionTile(
-          title: const Text("Fonts"),
-          leading: const Icon(Icons.sort_by_alpha),
-          trailing: const Icon(Icons.arrow_drop_down),
-          childrenPadding: const EdgeInsets.only(left: 60),
-          children: [
-            ListTile(
-              title: const Text("Big Font Size"),
-              onTap: () {
-                Provider.of<FontProvider>(context, listen: false)
-                    .changeFontSize(25);
-              },
-            ),
-            ListTile(
-              title: const Text("Small Font Size"),
-              onTap: () {
-                Provider.of<FontProvider>(context, listen: false)
-                    .changeFontSize(10);
-              },
-            ),
-            ListTile(
-              title: const Text("Change Font Style"),
-              onTap: () {
-                Provider.of<FontProvider>(context, listen: false)
-                    .changeFontFamily("Regular");
-              },
-            ),
-          ],
-        ),
-        ExpansionTile(
-          title: const Text("Language"),
-          leading: const Icon(Icons.language),
-          trailing: const Icon(Icons.arrow_drop_down),
-          childrenPadding: const EdgeInsets.only(left: 60),
-          children: [
-            ListTile(
-              title: const Text("English"),
-              leading: const Icon(
-                Icons.language,
+                  Navigator.pop(context);
+                },
               ),
-              onTap: () {
-                Provider.of<LangProvider>(context, listen: false).change2EN();
-              },
-            ),
-            ListTile(
-              title: const Text("简体中文"),
-              leading: const Icon(
-                Icons.language,
+            ],
+          ),
+          ExpansionTile(
+            title: const Text("Fonts"),
+            leading: const Icon(Icons.sort_by_alpha),
+            trailing: const Icon(Icons.arrow_drop_down),
+            childrenPadding: const EdgeInsets.only(left: 60),
+            children: [
+              ListTile(
+                title: Slider(
+                  value: Provider.of<FontProvider>(context, listen: false)
+                      .getSize(),
+                  min: 10.0,
+                  max: 30.0,
+                  divisions: 20,
+                  label:
+                      "${Provider.of<FontProvider>(context, listen: false).getSize()}",
+                  onChanged: (double value) {
+                    setState(() {
+                      Provider.of<FontProvider>(context, listen: false)
+                          .changeFontSize(value);
+                    });
+                  },
+                ),
+                trailing: Text(
+                    '${Provider.of<SettingModel>(context, listen: false).precision.toInt()}'),
               ),
-              onTap: () {
-                Provider.of<LangProvider>(context, listen: false).change2SCN();
-              },
-            ),
-          ],
-        ),
-        ExpansionTile(
-          title: const Text("Exam Mode"),
-          leading: const Icon(Icons.school),
-          trailing: const Icon(Icons.arrow_drop_down),
-          childrenPadding: const EdgeInsets.only(left: 60),
-          children: [
-            ListTile(
-              title: const Text("lock"),
-              leading: const Icon(
-                Icons.school,
+              ListTile(
+                title: const Text("Change Font Style"),
+                onTap: () {
+                  Provider.of<FontProvider>(context, listen: false)
+                      .changeFontFamily("Regular");
+                },
               ),
-              onTap: () {
-                Provider.of<LockProvider>(context, listen: false)
-                    .lockEquation();
-              },
-            ),
-            ListTile(
-              title: const Text("unlock"),
-              leading: const Icon(
-                Icons.school,
+            ],
+          ),
+          ExpansionTile(
+            title: const Text("Language"),
+            leading: const Icon(Icons.language),
+            trailing: const Icon(Icons.arrow_drop_down),
+            childrenPadding: const EdgeInsets.only(left: 60),
+            children: [
+              ListTile(
+                title: const Text("English"),
+                leading: const Icon(
+                  Icons.language,
+                ),
+                onTap: () {
+                  Provider.of<LangProvider>(context, listen: false).change2EN();
+                },
               ),
-              onTap: () {
-                Provider.of<LockProvider>(context, listen: false)
-                    .unlockEquation();
-              },
-            ),
-          ],
-        ),
-        ExpansionTile(
-          title: const Text("Angle Unit"),
-          leading: const Icon(Icons.text_rotation_angledown),
-          trailing: const Icon(Icons.arrow_drop_down),
-          childrenPadding: const EdgeInsets.only(left: 60),
-          children: [
-            ListTile(
-              title: const Text("Rad"),
-              leading: const Icon(
-                Icons.r_mobiledata,
+              ListTile(
+                title: const Text("简体中文"),
+                leading: const Icon(
+                  Icons.language,
+                ),
+                onTap: () {
+                  Provider.of<LangProvider>(context, listen: false)
+                      .change2SCN();
+                },
               ),
-              onTap: () {
-                Provider.of<SettingModel>(context, listen: false)
-                    .changeRadMode(true);
-              },
-            ),
-            ListTile(
-              title: const Text("degree"),
-              leading: const Icon(
-                Icons.rotate_90_degrees_ccw,
+            ],
+          ),
+          ExpansionTile(
+            title: const Text("Exam Mode"),
+            leading: const Icon(Icons.school),
+            trailing: const Icon(Icons.arrow_drop_down),
+            childrenPadding: const EdgeInsets.only(left: 60),
+            children: [
+              ListTile(
+                title: const Text("lock"),
+                leading: const Icon(
+                  Icons.school,
+                ),
+                onTap: () {
+                  Provider.of<LockProvider>(context, listen: false)
+                      .lockEquation();
+                },
               ),
-              onTap: () {
-                Provider.of<SettingModel>(context, listen: false)
-                    .changeRadMode(false);
-              },
-            ),
-          ],
-        )
-      ])),
+              ListTile(
+                title: const Text("unlock"),
+                leading: const Icon(
+                  Icons.school,
+                ),
+                onTap: () {
+                  Provider.of<LockProvider>(context, listen: false)
+                      .unlockEquation();
+                },
+              ),
+            ],
+          ),
+          ExpansionTile(
+            title: const Text("Angle Unit"),
+            leading: const Icon(Icons.text_rotation_angledown),
+            trailing: const Icon(Icons.arrow_drop_down),
+            childrenPadding: const EdgeInsets.only(left: 60),
+            children: [
+              ListTile(
+                title: const Text("Rad"),
+                leading: const Icon(
+                  Icons.r_mobiledata,
+                ),
+                onTap: () {
+                  Provider.of<SettingModel>(context, listen: false)
+                      .changeRadMode(true);
+                },
+              ),
+              ListTile(
+                title: const Text("degree"),
+                leading: const Icon(
+                  Icons.rotate_90_degrees_ccw,
+                ),
+                onTap: () {
+                  Provider.of<SettingModel>(context, listen: false)
+                      .changeRadMode(false);
+                },
+              ),
+            ],
+          ),
+          ExpansionTile(
+            title: Text('Calc Precision'),
+            children: [
+              ListTile(
+                title: Slider(
+                  value: Provider.of<SettingModel>(context, listen: false)
+                      .precision
+                      .toDouble(),
+                  min: 0.0,
+                  max: 10.0,
+                  divisions: 10,
+                  label:
+                      "${Provider.of<SettingModel>(context, listen: false).precision.toInt()}",
+                  onChanged: (double value) {
+                    setState(() {
+                      Provider.of<SettingModel>(context, listen: false)
+                          .changeSlider(value);
+                    });
+                  },
+                ),
+                trailing: Text(
+                    '${Provider.of<SettingModel>(context, listen: false).precision.toInt()}'),
+              ),
+            ],
+          ),
+        ],
+      )),
     );
   }
 }

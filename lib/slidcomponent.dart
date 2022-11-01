@@ -20,6 +20,7 @@ class SlidComponent extends StatelessWidget {
             //mode.changeMode(Mode.Basic);
             switch (mathMode.value) {
               case Mode.Basic:
+                //return Text("hey");
                 return Result();
                 break;
               case Mode.Matrix:

@@ -41,9 +41,11 @@ class _ResultState extends State<Result> with TickerProviderStateMixin {
           String text;
           if (model.result != '' &&
               animationController!.status == AnimationStatus.dismissed) {
+            //text = "A";
             text = '= ' + model.result;
           } else {
             text = model.result;
+            //text = "B";
           }
           return SelectableText(
             text,

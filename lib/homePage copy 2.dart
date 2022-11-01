@@ -21,28 +21,104 @@ import 'package:calculator/backend/keyboard.dart';
 import 'package:calculator/backend/mathmodel.dart';
 import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/slidcomponent.dart';
-import 'package:calculator/robot/SpeechScreen.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+
+  // Widget build(BuildContext context) {
+  //   return Container(
+  //     child: Scaffold(
+  //         appBar: AppBar(
+  //           title: Text("Smart Calculator"),
+  //           backgroundColor: Provider.of<ColorProvider>(context).getColor(),
+  //           actions: [
+  //             PopupMenuButton(
+  //                 // add icon, by default "3 dot" icon
+  //                 // icon: Icon(Icons.book)
+  //                 itemBuilder: (context) {
+  //               return [
+  //                 PopupMenuItem<int>(
+  //                   value: 0,
+  //                   child: Text("Equation Solver"),
+  //                 ),
+  //                 PopupMenuItem<int>(
+  //                   value: 1,
+  //                   child: Text("Matrix Calculation"),
+  //                 ),
+  //                 PopupMenuItem<int>(
+  //                   value: 2,
+  //                   child: Text("Graph Plotting"),
+  //                 ),
+  //                 PopupMenuItem<int>(
+  //                   value: 3,
+  //                   child: Text("Unit Conversion"),
+  //                 ),
+  //               ];
+  //             }, onSelected: (value) {
+  //               if (value == 0) {
+  //                 print("equation solver is selected.");
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                       builder: (context) => const EquationApp()),
+  //                 );
+  //               } else if (value == 1) {
+  //                 Provider.of<ColorProvider>(context).changeColor("white");
+  //                 print(Provider.of<ColorProvider>(context).getColor());
+  //               } else if (value == 2) {
+  //                 print("graph plotting is selected.");
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                       builder: (context) => const Typeselection()),
+  //                 );
+  //               } else if (value == 3) {
+  //                 print("unitconversion is selected.");
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(builder: (context) => const Convertor()),
+  //                 );
+  //               }
+  //             }),
+  //           ],
+  //         ),
+  //         body: Column(children: <Widget>[
+  //           //Expanded(child: containerHistory(), flex: 3),
+  //           // Expanded(
+  //           //     child: TextButton(
+  //           //   child: Text("change towhite"),
+  //           //   onPressed: () {
+  //           //     setState(() {
+  //           //       colorController.changeColor("white");
+  //           //     });
+  //           //   },
+  //           // )),
+  //           // Expanded(
+  //           //     child: TextButton(
+  //           //   child: Text("change toblack"),
+  //           //   onPressed: () {
+  //           //     setState(() {
+  //           //       colorController.changeColor("black");
+  //           //     });
+  //           //   },
+  //           // )),
+  //           // Expanded(
+  //           //   child: Text(colorController.color.toString()),
+  //           // ),
+  //           Expanded(child: DisplayBox(), flex: 4),
+  //         ]),
+  //         drawer: SideBar()),
+  //   );
+  // }
 }
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final Server _server = Server();
   TabController? tabController;
-  int _currentIndex = 0;
-  double myvalue = 0;
+
   List tabs = ["Basic", "Matrix"];
-  final _bottomNavigationBarItems = [
-    BottomNavigationBarItem(
-        icon: Icon(Icons.keyboard, color: Colors.blue), label: "Keyboard"),
-    //title: Text('Blue', style: TextStyle(color: Colors.blue))),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.speaker_notes, color: Colors.green), label: "Robot")
-    //title: Text('Green', style: TextStyle(color: Colors.green))),
-  ];
 
   @override
   void initState() {
@@ -64,7 +140,6 @@ class _HomePageState extends State<HomePage>
     final mathBoxController =
         Provider.of<MathBoxController>(context, listen: false);
     final setting = Provider.of<SettingModel>(context, listen: false);
-    final PageController _pageController = PageController();
     return Container(
       child: Scaffold(
           appBar: AppBar(
@@ -193,54 +268,21 @@ class _HomePageState extends State<HomePage>
               }),
             ],
           ),
-          // body: Slider(
-          //   value: myvalue,
-          //   max: 100,
-          //   divisions: 5,
-          //   label: myvalue.round().toString(),
-          //   onChanged: (double value) {
-          //     setState(() {
-          //       myvalue = value;
-          //     });
-          //   },
-          // ),
-
-          body: PageView(
-            controller: _pageController,
-            children: [calculationPage(), SpeechScreen()],
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            items: _bottomNavigationBarItems,
-            onTap: (index) {
-              setState(() {
-                _currentIndex = index;
-                _pageController.jumpToPage(index);
-              });
-            },
-            //type: BottomNavigationBarType.fixed,
-          ),
-          drawer: SideBar()),
-    );
-  }
-}
-
-class calculationPage extends StatelessWidget {
-  double myvalue = 0;
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
+          body: Column(
             children: <Widget>[
-              MathBox(),
-              SlidComponent(),
+              Expanded(
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    MathBox(),
+                    SlidComponent(),
+                  ],
+                ),
+              ),
+              MathKeyBoard(),
             ],
           ),
-        ),
-        MathKeyBoard(),
-      ],
+          drawer: SideBar()),
     );
   }
 }
@@ -248,14 +290,14 @@ class calculationPage extends StatelessWidget {
 // class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 //   @override
 //   //SettingModel setting = ;
-
+  
 //   TabController? tabController;
 //   Size get preferredSize => const Size.fromHeight(100);
 //   MyAppBar(SettingModel setting, TabController? tabController);
 
 //   @override
 //   Widget build(BuildContext context) {
-
+     
 //     return FutureBuilder(
 //         future: setting.loading.future,
 //         builder: (context, snapshot) {

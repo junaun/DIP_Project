@@ -6,24 +6,20 @@ import 'package:flutter/material.dart';
 //import 'buttons.dart';
 import 'package:math_expressions/math_expressions.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Voice',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SpeechScreen(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Voice',
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//         primarySwatch: Colors.red,
+//         visualDensity: VisualDensity.adaptivePlatformDensity,
+//       ),
+//       home: SpeechScreen(),
+//     );
+//   }
+// }
 
 class SpeechScreen extends StatefulWidget {
   @override
@@ -69,7 +65,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
     ),
   };
 
-  stt.SpeechToText _speech;
+  late stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = 'audio calculator demo';
   double _confidence = 1.0;
@@ -83,9 +79,9 @@ class _SpeechScreenState extends State<SpeechScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          //title: Text('Confidence: ${(_confidence * 100.0).toStringAsFixed(1)}%'),
-          title: Text("Smart Calculator")),
+      // appBar: AppBar(
+      //     //title: Text('Confidence: ${(_confidence * 100.0).toStringAsFixed(1)}%'),
+      //     title: Text("Smart Calculator")),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -133,6 +129,8 @@ class _SpeechScreenState extends State<SpeechScreen> {
       } else {
         return "not sure which color detected";
       }
+    } else {
+      return "input is null";
     }
   }
 
@@ -155,13 +153,13 @@ class _SpeechScreenState extends State<SpeechScreen> {
 
   void _listen() async {
     if (!_isListening) {
-      bool available = await _speech.initialize(
+      bool available = await _speech!.initialize(
         onStatus: (val) => print('onStatus: $val'),
         onError: (val) => print('onError: $val'),
       );
       if (available) {
         setState(() => _isListening = true);
-        _speech.listen(
+        _speech!.listen(
           onResult: (val) => setState(() {
             String inputText = val.recognizedWords;
             _text = inputText + " = " + analyzeSpeech(inputText);
@@ -175,7 +173,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
       }
     } else {
       setState(() => _isListening = false);
-      _speech.stop();
+      _speech!.stop();
     }
   }
 }

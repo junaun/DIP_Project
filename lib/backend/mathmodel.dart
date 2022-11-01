@@ -214,7 +214,9 @@ num calc(Expression mathexp, int precision) {
   if (val.abs() > 16331239353195368) {
     return val.sign * (1.0 / 0.0);
   }
-  val = num.parse(val.toStringAsFixed(precision));
+  //return precision;
+  val = num.parse(val.toStringAsFixed(precision > 10 ? 10 : precision));
+
   val = intCheck(val);
   return val;
 }

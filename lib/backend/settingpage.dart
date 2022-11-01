@@ -7,8 +7,14 @@ import 'package:url_launcher/url_launcher.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:calculator/backend/mathmodel.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
+  @override
+  _SettingPageState createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     final mathModel = Provider.of<MathModel>(context, listen: false);
@@ -115,8 +121,8 @@ class SettingPage extends StatelessWidget {
   }
 
   _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       throw 'Could not launch $url';
     }

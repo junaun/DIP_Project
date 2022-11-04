@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:calculator/services/ColorProvider.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
@@ -126,16 +127,16 @@ class MathKeyBoard extends StatelessWidget {
     ));
 
     button.add(MyButton(
-      child: Text('0'),
+      child: Text('.'),
       onPressed: () {
-        mathBoxController.addExpression('0');
+        mathBoxController.addExpression('.');
       },
     ));
 
     button.add(MyButton(
-      child: Text('.'),
+      child: Text('0'),
       onPressed: () {
-        mathBoxController.addExpression('.');
+        mathBoxController.addExpression('0');
       },
     ));
 
@@ -232,7 +233,8 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.0),
       child: Material(
-        color: Colors.blueAccent[400],
+        //color: Colors.blueAccent[400],
+        color: Provider.of<ColorProvider>(context, listen: false).color,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20.0),
           topLeft: Radius.circular(20.0),
@@ -364,53 +366,26 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
         mathBoxController.addExpression('(');
       },
     ));
-
     button.add(MyButton(
-      child: Icon(
-        // sqrt
-        IconData(0xe90a, fontFamily: 'Keyboard'),
-        color: fontColor,
-        size: iconSize,
-      ),
-      onPressed: () {
-        mathBoxController.addExpression('\\sqrt');
-      },
-    ));
-
-    button.add(MyButton(
-      child: Icon(
-        // exp
-        IconData(0xe905, fontFamily: 'Keyboard'),
-        color: fontColor,
-        size: iconSize,
-      ),
-      onPressed: () {
-        mathBoxController.addExpression('e');
-        mathBoxController.addExpression('^');
-      },
-    ));
-
-    button.add(MyButton(
-      child: Icon(
-        // pow2
-        IconData(0xe909, fontFamily: 'Keyboard'),
-        color: fontColor,
-        size: iconSize,
-      ),
-      onPressed: () {
-        mathBoxController.addExpression(')');
-        mathBoxController.addExpression('^');
-        mathBoxController.addExpression('2');
-      },
-    ));
-
-    button.add(MyButton(
-      child: Text('ln'),
+      child: Text('Ans'),
       fontSize: fontSize,
       fontColor: fontColor,
       onPressed: () {
-        mathBoxController.addExpression('\\ln');
-        mathBoxController.addExpression('(');
+        if (Provider.of<MathModel>(context, listen: false).hasHistory) {
+          mathBoxController.addExpression('Ans');
+        } else {
+          final snackBar = SnackBar(
+            content: Text('Unable to input Ans now'),
+            duration: Duration(
+              milliseconds: 500,
+            ),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {},
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       },
     ));
 
@@ -455,6 +430,57 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
 
     button.add(MyButton(
       child: Icon(
+        // sqrt
+        IconData(0xe90a, fontFamily: 'Keyboard'),
+        color: fontColor,
+        size: iconSize,
+      ),
+      onPressed: () {
+        mathBoxController.addExpression('\\sqrt');
+      },
+    ));
+
+    button.add(MyButton(
+      child: Icon(
+        // exp
+        IconData(0xe905, fontFamily: 'Keyboard'),
+        color: fontColor,
+        size: iconSize,
+      ),
+      onPressed: () {
+        mathBoxController.addExpression('e');
+        mathBoxController.addExpression('^');
+      },
+    ));
+
+    button.add(MyButton(
+      child: Icon(
+        // pow2
+        IconData(0xe909, fontFamily: 'Keyboard'),
+        color: fontColor,
+        size: iconSize,
+      ),
+      onPressed: () {
+        mathBoxController.addExpression(')');
+        mathBoxController.addExpression('^');
+        mathBoxController.addExpression('2');
+      },
+    ));
+    button.add(MyButton(
+      child: Icon(
+        // expo
+        IconData(0xe906, fontFamily: 'Keyboard'),
+        color: fontColor,
+        size: iconSize,
+      ),
+      onPressed: () {
+        mathBoxController.addExpression(')');
+        mathBoxController.addExpression('^');
+      },
+    ));
+
+    button.add(MyButton(
+      child: Icon(
         // nrt
         IconData(0xe908, fontFamily: 'Keyboard'),
         color: fontColor,
@@ -474,24 +500,6 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
       ),
       onPressed: () {
         mathBoxController.addExpression('\\|');
-      },
-    ));
-
-    button.add(MyButton(
-      child: Text('('),
-      fontSize: fontSize,
-      fontColor: fontColor,
-      onPressed: () {
-        mathBoxController.addExpression('(');
-      },
-    ));
-
-    button.add(MyButton(
-      child: Text(')'),
-      fontSize: fontSize,
-      fontColor: fontColor,
-      onPressed: () {
-        mathBoxController.addExpression(')');
       },
     ));
 
@@ -529,17 +537,13 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
         mathBoxController.addKey('Left Left');
       },
     ));
-
     button.add(MyButton(
-      child: Icon(
-        // expo
-        IconData(0xe906, fontFamily: 'Keyboard'),
-        color: fontColor,
-        size: iconSize,
-      ),
+      child: Text('ln'),
+      fontSize: fontSize,
+      fontColor: fontColor,
       onPressed: () {
-        mathBoxController.addExpression(')');
-        mathBoxController.addExpression('^');
+        mathBoxController.addExpression('\\ln');
+        mathBoxController.addExpression('(');
       },
     ));
 
@@ -552,6 +556,23 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
     //     mathBoxController.addExpression('x');
     //   },
     // ));
+    button.add(MyButton(
+      child: Text('('),
+      fontSize: fontSize,
+      fontColor: fontColor,
+      onPressed: () {
+        mathBoxController.addExpression('(');
+      },
+    ));
+
+    button.add(MyButton(
+      child: Text(')'),
+      fontSize: fontSize,
+      fontColor: fontColor,
+      onPressed: () {
+        mathBoxController.addExpression(')');
+      },
+    ));
 
     button.add(MyButton(
       child: Icon(
@@ -602,29 +623,6 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
             content: Text('This is the last result'),
             duration: Duration(
               milliseconds: 700,
-            ),
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {},
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
-      },
-    ));
-
-    button.add(MyButton(
-      child: Text('Ans'),
-      fontSize: fontSize,
-      fontColor: fontColor,
-      onPressed: () {
-        if (Provider.of<MathModel>(context, listen: false).hasHistory) {
-          mathBoxController.addExpression('Ans');
-        } else {
-          final snackBar = SnackBar(
-            content: Text('Unable to input Ans now'),
-            duration: Duration(
-              milliseconds: 500,
             ),
             action: SnackBarAction(
               label: 'OK',

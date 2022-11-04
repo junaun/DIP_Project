@@ -1,3 +1,4 @@
+import 'package:calculator/backend/slideKeyboard.dart';
 import 'package:calculator/buttonBox.dart';
 import 'package:calculator/diffrentiation.dart';
 import 'package:calculator/displayBox.dart';
@@ -22,6 +23,7 @@ import 'package:calculator/backend/mathmodel.dart';
 import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/slidcomponent.dart';
 import 'package:calculator/robot/SpeechScreen.dart';
+import 'package:calculator/robot/test.dart' as test;
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,14 +37,14 @@ class _HomePageState extends State<HomePage>
   int _currentIndex = 0;
   double myvalue = 0;
   List tabs = ["Basic", "Matrix"];
-  final _bottomNavigationBarItems = [
-    BottomNavigationBarItem(
-        icon: Icon(Icons.keyboard, color: Colors.blue), label: "Keyboard"),
-    //title: Text('Blue', style: TextStyle(color: Colors.blue))),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.speaker_notes, color: Colors.green), label: "Robot")
-    //title: Text('Green', style: TextStyle(color: Colors.green))),
-  ];
+  // final _bottomNavigationBarItems = [
+  //   BottomNavigationBarItem(
+  //       icon: Icon(Icons.keyboard, color: Provider.of<ColorProvider>(context,listen:false).color), label: "Keyboard"),
+  //   //title: Text('Blue', style: TextStyle(color: Colors.blue))),
+  //   BottomNavigationBarItem(
+  //       icon: Icon(Icons.speaker_notes, color: Colors.green), label: "Robot")
+  //   //title: Text('Green', style: TextStyle(color: Colors.green))),
+  // ];
 
   @override
   void initState() {
@@ -59,6 +61,18 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    final _bottomNavigationBarItems = [
+      BottomNavigationBarItem(
+          icon: Icon(Icons.keyboard,
+              color: Provider.of<ColorProvider>(context, listen: false).color),
+          label: "Keyboard"),
+      //title: Text('Blue', style: TextStyle(color: Colors.blue))),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.speaker_notes,
+              color: Provider.of<ColorProvider>(context, listen: false).color),
+          label: "Robot")
+      //title: Text('Green', style: TextStyle(color: Colors.green))),
+    ];
     final mode = Provider.of<CalculationMode>(context, listen: false);
     //mode.changeMode(Mode.Basic);
     final mathBoxController =
@@ -231,6 +245,7 @@ class calculationPage extends StatelessWidget {
     return Column(
       children: <Widget>[
         Expanded(
+          flex: 10,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
@@ -239,7 +254,9 @@ class calculationPage extends StatelessWidget {
             ],
           ),
         ),
-        MathKeyBoard(),
+        Expanded(
+            flex: 8,
+            child: Container(color: Colors.grey[300], child: SlideKeyboard()))
       ],
     );
   }

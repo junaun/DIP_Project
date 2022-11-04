@@ -1,3 +1,4 @@
+import 'package:calculator/services/LangProvider.dart';
 import 'package:flutter/material.dart';
 import 'History.dart';
 import 'Linear_plot.dart';
@@ -5,10 +6,9 @@ import 'Quadratic_plot.dart';
 import 'Cubic_plot.dart';
 import 'Quartic_plot.dart';
 import 'Complicated_plot.dart';
+import 'package:provider/provider.dart';
 import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/FontProvider.dart';
-import 'package:calculator/services/LangProvider.dart';
-import 'package:provider/provider.dart';
 
 class Typeselection extends StatefulWidget {
   const Typeselection({Key? key}) : super(key: key);
@@ -22,7 +22,11 @@ class TypeselectionState extends State<Typeselection> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Provider.of<LangProvider>(context).plotBar),
+        backgroundColor:
+            Provider.of<ColorProvider>(context, listen: false).color,
+        title: Text(Provider.of<LangProvider>(context, listen: false).plotBar,
+            style: TextStyle(
+                fontSize: Provider.of<FontProvider>(context).fontSize)),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20.0),

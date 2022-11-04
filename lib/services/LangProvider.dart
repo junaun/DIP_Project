@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 
 class LangProvider with ChangeNotifier {
   String homeBar = "Smart Calculator";
-  String plotBar = "Plot Functions";
+  String plotBar = "Functions Plotting";
   String settingBar = "Settings";
   String equationBar = "Equation Solver";
 
   LangController(int newSize) {}
 
   change2SCN() {
-    homeBar = "大聪明计算器";
+    homeBar = "科学计算器";
     plotBar = "函数画图";
     settingBar = "设置";
     equationBar = "解方程";

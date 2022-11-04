@@ -122,8 +122,8 @@ class Graph_plotterState extends State<Graph_plotter> {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = <ChartData>[];
-    for (double i = 0; i <= 400; i++) {
-      double value = min + (max - min) * i / 400;
+    for (double i = 0; i <= 500; i++) {
+      double value = min + (max - min) * i / 500;
       ContextModel cm = ContextModel()..bindVariable(x, Number(value));
       double y = exp.evaluate(EvaluationType.REAL, cm);
       chartData.add(ChartData(value, y));

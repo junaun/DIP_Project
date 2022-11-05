@@ -2,7 +2,7 @@ import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/services/LangProvider.dart';
 import 'package:calculator/services/LockProvider.dart';
 import 'package:units_converter/properties/torque.dart';
-
+import 'package:calculator/utils/my_flutter_app_icons.dart';
 import 'containerHistory.dart';
 import 'buttonBox.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/FontProvider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:calculator/utils/my_flutter_app_icons.dart';
 
 colorPicker(context) {
   showDialog(
@@ -67,7 +68,9 @@ class _SideBarState extends State<SideBar> {
                       fontSize: Provider.of<FontProvider>(context).fontSize))),
           ExpansionTile(
             title: const Text('Themes'),
-            leading: const Icon(Icons.functions),
+            leading: const Icon(
+              Icons.color_lens,
+            ),
             trailing: const Icon(Icons.arrow_drop_down),
             childrenPadding: const EdgeInsets.only(left: 60),
             children: [
@@ -203,6 +206,7 @@ class _SideBarState extends State<SideBar> {
           ),
           ExpansionTile(
             title: Text('Calc Precision'),
+            leading: Icon(Icons.calculate_outlined),
             children: [
               ListTile(
                 title: Slider(

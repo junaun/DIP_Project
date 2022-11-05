@@ -5,7 +5,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:calculator/backend/keyboard.dart';
-import 'package:calculator/backend/keyboard2.dart';
+//import 'package:calculator/backend/keyboard2.dart';
 import 'package:calculator/backend/mathbox.dart';
 import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/backend/mathmodel.dart';

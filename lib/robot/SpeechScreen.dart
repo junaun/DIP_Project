@@ -198,7 +198,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
       Provider.of<FontProvider>(context, listen: false).changeFontSize(20);
       return "Ok! The font size is smaller now.";
     } else {
-      return "Paiseh, not sure which font size you are saying";
+      return "Sorry, not sure which font size you are saying";
     }
   }
 
@@ -223,7 +223,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
   String speechCalculate(String userInput) {
     String finaluserinput = userInput;
     finaluserinput = finaluserinput.replaceAll('x', '*');
-    // //finaluserinput = userInput.replaceAll('', '*');
+    finaluserinput = userInput.replaceAll('', '*');
     String answer = "null";
     Parser p = Parser();
     Expression exp = p.parse(finaluserinput);

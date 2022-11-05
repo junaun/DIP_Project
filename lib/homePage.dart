@@ -68,9 +68,9 @@ class _HomePageState extends State<HomePage>
           label: "Keyboard"),
       //title: Text('Blue', style: TextStyle(color: Colors.blue))),
       BottomNavigationBarItem(
-          icon: Icon(Icons.speaker_notes,
+          icon: Icon(Icons.support_agent,
               color: Provider.of<ColorProvider>(context, listen: false).color),
-          label: "Robot")
+          label: "Calcbot")
       //title: Text('Green', style: TextStyle(color: Colors.green))),
     ];
     final mode = Provider.of<CalculationMode>(context, listen: false);
@@ -126,85 +126,94 @@ class _HomePageState extends State<HomePage>
             //     }
             //   },
             // );
-
+            leading: Builder(builder: (BuildContext context) {
+              return IconButton(
+                  icon: const Icon(
+                    Icons.settings,
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  });
+            }),
             title: Text(Provider.of<LangProvider>(context).homeBar,
                 style: TextStyle(
                     fontSize: Provider.of<FontProvider>(context).fontSize)),
             backgroundColor: Provider.of<ColorProvider>(context).getColor(),
             actions: [
               PopupMenuButton(
-                  // add icon, by default "3 dot" icon
-                  // icon: Icon(Icons.book)
+                  icon: Icon(Icons.handyman),
                   itemBuilder: (context) {
-                return [
-                  PopupMenuItem<int>(
-                    value: 0,
-                    child: Text("Equation Solver"),
-                  ),
-                  PopupMenuItem<int>(
-                    value: 1,
-                    child: Text("Matrix Calculation"),
-                  ),
-                  PopupMenuItem<int>(
-                    value: 2,
-                    child: Text("Graph Plotting"),
-                  ),
-                  PopupMenuItem<int>(
-                    value: 3,
-                    child: Text("Unit Conversion"),
-                  ),
-                  PopupMenuItem<int>(
-                    value: 4,
-                    child: Text("basic"),
-                  ),
-                ];
-              }, onSelected: (value) {
-                if (value == 0) {
-                  if (Provider.of<LockProvider>(context, listen: false)
-                      .getLockEquation()) {
-                    showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Access Denied'),
-                        content: const Text('Equation is locked'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.pop(context, 'OK'),
-                            child: const Text('OK'),
-                          ),
-                        ],
+                    return [
+                      PopupMenuItem<int>(
+                        value: 0,
+                        child: Text("Equation Solver"),
                       ),
-                    );
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const EquationApp()),
-                    );
-                  }
-                } else if (value == 1) {
-                  Provider.of<ColorProvider>(context, listen: false)
-                      .changeColor(Colors.white);
-                } else if (value == 2) {
-                  print("graph plotting is selected.");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const Typeselection()),
-                  );
-                } else if (value == 3) {
-                  print("unitconversion is selected.");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Convertor()),
-                  );
-                } else if (value == 4) {
-                  //print("unitconversion is selected.");
-                  mode.changeMode(Mode.Basic);
-                } else {
-                  mode.changeMode(Mode.Basic);
-                }
-              }),
+                      PopupMenuItem<int>(
+                        value: 1,
+                        child: Text("Matrix Calculation"),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 2,
+                        child: Text("Graph Plotting"),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 3,
+                        child: Text("Unit Conversion"),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 4,
+                        child: Text("basic"),
+                      ),
+                    ];
+                  },
+                  onSelected: (value) {
+                    if (value == 0) {
+                      if (Provider.of<LockProvider>(context, listen: false)
+                          .getLockEquation()) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Access Denied'),
+                            content: const Text('Equation is locked'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EquationApp()),
+                        );
+                      }
+                    } else if (value == 1) {
+                      Provider.of<ColorProvider>(context, listen: false)
+                          .changeColor(Colors.white);
+                    } else if (value == 2) {
+                      print("graph plotting is selected.");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Typeselection()),
+                      );
+                    } else if (value == 3) {
+                      print("unitconversion is selected.");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Convertor()),
+                      );
+                    } else if (value == 4) {
+                      //print("unitconversion is selected.");
+                      mode.changeMode(Mode.Basic);
+                    } else {
+                      mode.changeMode(Mode.Basic);
+                    }
+                  }),
             ],
           ),
           // body: Slider(

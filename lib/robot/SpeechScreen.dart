@@ -76,7 +76,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
-  String _text = 'audio calculator demo';
+  String _text = 'Hi! How can I help you?';
   double _confidence = 1.0;
 
   @override

@@ -67,7 +67,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
 
   stt.SpeechToText? _speech;
   bool _isListening = false;
-  String _text = 'audio calculator demo';
+  String _text = 'Hi! How can I help you:)';
   double _confidence = 1.0;
 
   @override
@@ -144,7 +144,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
     ContextModel cm = ContextModel();
     double eval = exp.evaluate(EvaluationType.REAL, cm);
     if (eval == null) {
-      return "Paiseh, no idea what you said";
+      return "Sorry, no idea what you said";
     }
     // answer = eval.toString();
     //return userInput;

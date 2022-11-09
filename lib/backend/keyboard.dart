@@ -142,12 +142,7 @@ class MathKeyBoard extends StatelessWidget {
 
     button.add(Consumer<CalculationMode>(
       builder: (context, mode, _) => MyButton(
-        child: mode.value != Mode.Matrix
-            ? Text('=')
-            : Icon(
-                Icons.male_rounded,
-                size: 40.0,
-              ),
+        child: mode.value != Mode.Matrix ? Text('=') : Text('Mat'),
         onPressed: () {
           mode.value == Mode.Basic
               ? mathBoxController.equal()

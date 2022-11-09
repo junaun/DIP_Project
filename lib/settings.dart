@@ -67,7 +67,7 @@ class _SideBarState extends State<SideBar> {
                       color: Colors.white,
                       fontSize: Provider.of<FontProvider>(context).fontSize))),
           ExpansionTile(
-            title: const Text('Themes'),
+            title: Text(Provider.of<LangProvider>(context).colorSetting),
             leading: const Icon(
               Icons.color_lens,
             ),
@@ -88,7 +88,7 @@ class _SideBarState extends State<SideBar> {
             ],
           ),
           ExpansionTile(
-            title: const Text("Fonts"),
+            title: Text(Provider.of<LangProvider>(context).fontSetting),
             leading: const Icon(Icons.sort_by_alpha),
             trailing: const Icon(Icons.arrow_drop_down),
             childrenPadding: const EdgeInsets.only(left: 60),
@@ -122,7 +122,7 @@ class _SideBarState extends State<SideBar> {
             ],
           ),
           ExpansionTile(
-            title: const Text("Language"),
+            title: Text(Provider.of<LangProvider>(context).langSetting),
             leading: const Icon(Icons.language),
             trailing: const Icon(Icons.arrow_drop_down),
             childrenPadding: const EdgeInsets.only(left: 60),
@@ -149,7 +149,7 @@ class _SideBarState extends State<SideBar> {
             ],
           ),
           ExpansionTile(
-            title: const Text("Exam Mode"),
+            title: Text(Provider.of<LangProvider>(context).modeSetting),
             leading: const Icon(Icons.school),
             trailing: const Icon(Icons.arrow_drop_down),
             childrenPadding: const EdgeInsets.only(left: 60),
@@ -177,7 +177,7 @@ class _SideBarState extends State<SideBar> {
             ],
           ),
           ExpansionTile(
-            title: const Text("Angle Unit"),
+            title: Text(Provider.of<LangProvider>(context).angleSetting),
             leading: const Icon(Icons.text_rotation_angledown),
             trailing: const Icon(Icons.arrow_drop_down),
             childrenPadding: const EdgeInsets.only(left: 60),
@@ -205,7 +205,7 @@ class _SideBarState extends State<SideBar> {
             ],
           ),
           ExpansionTile(
-            title: Text('Calc Precision'),
+            title: Text(Provider.of<LangProvider>(context).calcSetting),
             leading: Icon(Icons.calculate_outlined),
             children: [
               ListTile(

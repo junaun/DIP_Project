@@ -65,12 +65,12 @@ class _HomePageState extends State<HomePage>
       BottomNavigationBarItem(
           icon: Icon(Icons.keyboard,
               color: Provider.of<ColorProvider>(context, listen: false).color),
-          label: "Keyboard"),
+          label: Provider.of<LangProvider>(context).keyboardIcon),
       //title: Text('Blue', style: TextStyle(color: Colors.blue))),
       BottomNavigationBarItem(
           icon: Icon(Icons.support_agent,
               color: Provider.of<ColorProvider>(context, listen: false).color),
-          label: "Calcbot")
+          label: Provider.of<LangProvider>(context).calcbotIcon)
       //title: Text('Green', style: TextStyle(color: Colors.green))),
     ];
     final mode = Provider.of<CalculationMode>(context, listen: false);
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage>
                       ),
                       PopupMenuItem<int>(
                         value: 1,
-                        child: Text("Matrix Calculation"),
+                        child: Text("Integration"),
                       ),
                       PopupMenuItem<int>(
                         value: 2,
@@ -162,7 +162,11 @@ class _HomePageState extends State<HomePage>
                       ),
                       PopupMenuItem<int>(
                         value: 4,
-                        child: Text("basic"),
+                        child: Text("Matrix Mode"),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 5,
+                        child: Text("Basic Calculation"),
                       ),
                     ];
                   },
@@ -209,9 +213,14 @@ class _HomePageState extends State<HomePage>
                       );
                     } else if (value == 4) {
                       //print("unitconversion is selected.");
+                      mode.changeMode(Mode.Matrix);
+                    } else if (value == 5) {
+                      //print("unitconversion is selected.");
+                      //setting.changeInitpage(0);
                       mode.changeMode(Mode.Basic);
                     } else {
-                      mode.changeMode(Mode.Basic);
+                      //mode.changeMode(Mode.Basic);
+                      setting.changeInitpage(0);
                     }
                   }),
             ],

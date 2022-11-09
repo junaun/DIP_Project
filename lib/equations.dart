@@ -45,7 +45,7 @@ class EquationApp extends StatelessWidget {
                 Expanded(
                     child: TextFormField(
                         controller: myController3,
-                        keyboardType: TextInputType.number,
+                        //keyboardType: none,
                         decoration: const InputDecoration(
                             border: UnderlineInputBorder(), labelText: 'C'))),
               ],

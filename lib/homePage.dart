@@ -1,3 +1,4 @@
+import 'package:calculator/backend/editablePage.dart';
 import 'package:calculator/backend/slideKeyboard.dart';
 import 'package:calculator/buttonBox.dart';
 import 'package:calculator/diffrentiation.dart';
@@ -168,6 +169,10 @@ class _HomePageState extends State<HomePage>
                         value: 5,
                         child: Text("Basic Calculation"),
                       ),
+                      PopupMenuItem<int>(
+                        value: 6,
+                        child: Text("Constants"),
+                      ),
                     ];
                   },
                   onSelected: (value) {
@@ -218,6 +223,13 @@ class _HomePageState extends State<HomePage>
                       //print("unitconversion is selected.");
                       //setting.changeInitpage(0);
                       mode.changeMode(Mode.Basic);
+                    } else if (value == 6) {
+                      //print("unitconversion is selected.");
+                      //setting.changeInitpage(0);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EditablePage()),
+                      );
                     } else {
                       //mode.changeMode(Mode.Basic);
                       setting.changeInitpage(0);

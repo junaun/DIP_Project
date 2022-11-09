@@ -13,19 +13,18 @@ import 'package:calculator/backend/mathmodel.dart';
 
 class KeyboardProvider with ChangeNotifier {
   List<Widget> button = [];
-  var constants = {"A": 1.0, "B": 2.0, "C": 3.0};
-  List<Widget> buildLowButton(MathBoxController mathBoxController) {
-    for (MapEntry<String, double> constant in constants.entries) {
-      String name = constant.key;
-      double val = constant.value;
-      button.add(MyButton(
-        child: Text('$name'),
-        onPressed: () {
-          mathBoxController.addExpression('1');
-        },
-      ));
-    }
-
-    return button;
+  var constants = {
+    "A": 1.0,
+    "B": 2.0,
+    "C": 3.0,
+    "D": 1.0,
+    "E": 2.0,
+    "F": 3.0,
+    "G": 1.0,
+    "H": 2.0,
+    "I": 3.0
+  };
+  getConstants() {
+    return constants;
   }
 }

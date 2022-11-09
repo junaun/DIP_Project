@@ -3,7 +3,7 @@ import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/FontProvider.dart';
 import 'package:calculator/services/LockProvider.dart';
 import 'package:calculator/services/LangProvider.dart';
-
+import 'package:calculator/backend/keyboardProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<FontProvider>(create: (_) => FontProvider()),
           ChangeNotifierProvider<LangProvider>(create: (_) => LangProvider()),
           ChangeNotifierProvider<LockProvider>(create: (_) => LockProvider()),
-          //ChangeNotifierProvider<KeyboardProvider>(
-          //  create: (_) => KeyboardProvider()),
+          ChangeNotifierProvider<KeyboardProvider>(
+              create: (_) => KeyboardProvider()),
           Provider(create: (context) => MathBoxController()),
           ChangeNotifierProvider(create: (_) => SettingModel()),
           ChangeNotifierProxyProvider<SettingModel, MathModel>(

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:calculator/backend/keyboard2.dart';
 import 'package:calculator/services/ColorProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -50,8 +51,7 @@ class _SlideKeyboardState extends State<SlideKeyboard> {
         Expanded(
           flex: 30,
           child: PageView(
-              controller: _controller,
-              children: [MathKeyBoard(), MathKeyBoard()]
+              controller: _controller, children: [MathKeyBoard(), KeyBoard2()]
               //children: [MathKeyBoard(), MathKeyBoard()],
               ),
         ),

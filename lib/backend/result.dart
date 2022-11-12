@@ -37,7 +37,7 @@ class _ResultState extends State<Result> with TickerProviderStateMixin {
       height: animation!.value + 40,
       width: double.infinity,
       alignment: Alignment.centerRight,
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
       child: Consumer<MathModel>(
         builder: (_, model, __) {
           String text;
@@ -49,8 +49,12 @@ class _ResultState extends State<Result> with TickerProviderStateMixin {
             text = model.result;
             //text = "B";
           }
-          return Math.tex(text,
-              textStyle: TextStyle(fontSize: animation!.value - 5));
+
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Math.tex(text,
+                textStyle: TextStyle(fontSize: animation!.value - 5)),
+          );
 
           /*
           SelectableText(

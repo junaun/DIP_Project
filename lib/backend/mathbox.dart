@@ -105,22 +105,14 @@ class MathBox extends StatelessWidget {
             }
           },
           javascriptMode: JavascriptMode.unrestricted,
-          javascriptChannels: Set.from([
+          javascriptChannels: {
             JavascriptChannel(
                 name: 'latexString',
                 onMessageReceived: (JavascriptMessage message) {
-                  if (mode.value == Mode.Matrix) {
-                    matrixModel.updateExpression(message.message);
-                  } else {
-                    if (message.message.contains(RegExp('x|y'))) {
-                      //mode.changeMode(Mode.Function);
-                      //functionModel.updateExpression(message.message);
-                    } else {
-                      mode.changeMode(Mode.Basic);
-                      mathModel.updateExpression(message.message);
-                      mathModel.calcNumber();
-                    }
-                  }
+                  mode.changeMode(Mode.Basic);
+                  mathModel.updateExpression(message.message);
+                  //await mathModel.integrate(message.message);
+                  mathModel.calcNumber();
                 }),
             JavascriptChannel(
                 name: 'clearable',
@@ -128,7 +120,12 @@ class MathBox extends StatelessWidget {
                   mathModel.changeClearable(
                       message.message == 'false' ? false : true);
                 }),
-          ]),
+            JavascriptChannel(
+                name: 'parsed_latex',
+                onMessageReceived: (JavascriptMessage message) async {
+                  await mathModel.integrate(message.message);
+                }),
+          },
         ),
         ClearAnimation(),
       ],

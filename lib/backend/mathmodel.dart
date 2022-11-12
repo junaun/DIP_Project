@@ -95,6 +95,17 @@ class MathModel with ChangeNotifier {
     notifyListeners();
     return _expression;
   }
+
+  Future<void> integrate(String input) async {
+    //String inteJS = await rootBundle.loadString("assets/html/algebrite.js");
+    //final parsed = await parse(jsRuntime, input);
+    //final jsResult = jsRuntime
+    //    .evaluate("""${inteJS}Algebrite.integral("$input").toString()""");
+    //final jsStringResult = jsResult.toString();
+
+    _result = input;
+    notifyListeners();
+  }
 }
 
 class MatrixModel with ChangeNotifier {

@@ -52,7 +52,7 @@ class _ResultState extends State<Result> with TickerProviderStateMixin {
 
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Math.tex(text,
+            child: SelectableMath.tex(text,
                 textStyle: TextStyle(fontSize: animation!.value - 5)),
           );
 

@@ -63,6 +63,8 @@ function addCmd(message, {isOperator = false}) {
             postLaTex_complex();
         }
        
+    }else if(mathField.latex().includes("x")){
+        postLaTex_x();
     }else{
         postLaTex();
     }
@@ -227,6 +229,15 @@ function postLaTex_partfrac(){
     var part = class2('partfrac('+algeObj+', x)').evaluate().toString();
     var part_latex = class2.convertToLaTeX(part);
     parsed_latex.postMessage(part_latex);
+}
+
+function postLaTex_x(){
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(mathField.latex());
+    var class2 = nerdamer;
+    var x = algeObj.toAlgebrite(window.Algebrite).toString()
+    var x_latex = class2.convertToLaTeX(x);
+    parsed_latex.postMessage(x_latex);
 }
 </script>
 

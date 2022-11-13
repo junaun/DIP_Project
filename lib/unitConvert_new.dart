@@ -1759,261 +1759,38 @@ class _UnitConversionState extends State<UnitConversion>
             //THIS IS FOR TAB 2
             Row(children: [
               Expanded(
-                child: Column(
-                  children: [
-                    const Padding(padding: EdgeInsets.fromLTRB(20, 5, 20, 20)),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(25, 5, 20, 5),
-                                child: Text(
-                                  'Temperature',
-                                  style: GoogleFonts.poppins(
-                                      color:
-                                          const Color.fromARGB(200, 48, 50, 52),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                )))
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Container(
-                          // margin: const EdgeInsets.fromLTRB(20, 10, 0, 10),
-                          // color: Colors.amber,
-                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
-
-                          child: TextFormField(
-                            maxLength: 20,
-                            controller: TempController,
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
-                              signed: true,
-                            ),
-                            inputFormatters: [
-                              DecimalTextInputFormatter(),
-                              FilteringTextInputFormatter.deny(
-                                  RegExp(r'[\s\,[\.\.]]')),
-                            ],
-                            decoration: const InputDecoration(
-                                labelText: 'Enter a temperature value',
-                                hintStyle: TextStyle(fontSize: 10),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0)))),
-                          ),
-                        )),
-                      ],
-                    ),
-                    //ROW for tab 2, from-to
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                              padding: const EdgeInsets.fromLTRB(25, 0, 20, 0),
-                              child: Text(
-                                'From',
-                                style: GoogleFonts.poppins(
-                                    color:
-                                        const Color.fromARGB(200, 48, 50, 52),
-                                    fontSize: 15),
-                              )),
-                        ),
-                        Expanded(
-                          child: Container(
-                              padding: const EdgeInsets.fromLTRB(25, 0, 20, 0),
-                              child: Text(
-                                'To',
-                                style: GoogleFonts.poppins(
-                                    color:
-                                        const Color.fromARGB(200, 48, 50, 52),
-                                    fontSize: 15),
-                              )),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: Container(
-                                margin:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blueAccent),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0)),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 10, 10, 10),
-                                      child: DropdownButton2(
-                                        items: dropdownItems4,
-                                        value: dropdownvalue7,
-                                        onChanged: dropdownCallback7,
-                                        dropdownMaxHeight: 200,
-                                        iconSize: 20,
-                                        isDense: true,
-                                        isExpanded: true,
-                                        iconEnabledColor: Colors.blue,
-                                      )),
-                                ))),
-                        Expanded(
-                            child: Container(
-                                //DropDown Button RIGHT
-                                margin:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                decoration: BoxDecoration(
-                                  //color: Colors.amber,
-                                  border: Border.all(color: Colors.blueAccent),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0)),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 10, 10, 10),
-                                      child: DropdownButton2(
-                                        items: dropdownItems4,
-                                        value: dropdownvalue8,
-                                        onChanged: dropdownCallback8,
-                                        dropdownMaxHeight: 200,
-                                        iconSize: 20,
-                                        isDense: true,
-                                        isExpanded: true,
-                                        iconEnabledColor: Colors.blue,
-                                      )),
-                                )))
-                      ],
-                    ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                          width: MediaQuery.of(context).size.width * .95,
-                          child: Expanded(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.deepPurple,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const Padding(
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 20)),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Container(
                                   padding:
-                                      const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                                  textStyle: const TextStyle(fontSize: 20)),
-                              child: const Text(('Convert Now!')),
-                              onPressed: () {
-                                calculateTemp(TempController.text);
-                                FocusScopeNode currentFocus =
-                                    FocusScope.of(context);
-                                if (!currentFocus.hasPrimaryFocus) {
-                                  currentFocus.unfocus();
-                                }
-                              },
-                            ),
-                          )),
-                    ]),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-                            child: Text(
-                              'Output Value: ',
-                              style: GoogleFonts.poppins(
-                                  color: const Color.fromARGB(200, 48, 50, 52),
-                                  fontSize: 15),
-                            ),
-                            // decoration: BoxDecoration(),
-                          ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.blue, width: 2.0),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
-                              margin: const EdgeInsets.fromLTRB(25, 0, 0, 50),
-                              child: Text(
-                                outputTemp,
-                                style: GoogleFonts.poppins(
-                                    color:
-                                        const Color.fromRGBO(48, 50, 52, 0.784),
-                                    fontSize: 16),
-                                textAlign: TextAlign.center,
-                              )),
-                        ),
-                        Container(
-                          //Copy ICON
-                          //color: Colors.amber,
-                          margin: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                          child: TextButton.icon(
-                            label: const Text(''),
-                            icon: const Icon(
-                              Icons.copy,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: outputTemp))
-                                  .then((_) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Copied to your clipboard !')));
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ]),
-            // Thats the end for Tab 2
-
-            // Tab 3
-            Row(children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const Padding(padding: EdgeInsets.fromLTRB(20, 5, 20, 20)),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(25, 5, 20, 5),
-                                child: Text(
-                                  'Number System',
-                                  style: GoogleFonts.poppins(
-                                      color:
-                                          const Color.fromARGB(200, 48, 50, 52),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                )))
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: SingleChildScrollView(
-                          child: Container(
+                                      const EdgeInsets.fromLTRB(25, 0, 20, 5),
+                                  child: Text(
+                                    'Temperature',
+                                    style: GoogleFonts.poppins(
+                                        color: const Color.fromARGB(
+                                            200, 48, 50, 52),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Container(
+                            // margin: const EdgeInsets.fromLTRB(20, 10, 0, 10),
+                            // color: Colors.amber,
                             padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
+
                             child: TextFormField(
                               maxLength: 20,
-                              controller: BaseController,
+                              controller: TempController,
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                 decimal: true,
@@ -2025,186 +1802,442 @@ class _UnitConversionState extends State<UnitConversion>
                                     RegExp(r'[\s\,[\.\.]]')),
                               ],
                               decoration: const InputDecoration(
-                                  labelText: 'Enter a value',
+                                  labelText: 'Enter a temperature value',
                                   hintStyle: TextStyle(fontSize: 10),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10.0)))),
                             ),
+                          )),
+                        ],
+                      ),
+                      //ROW for tab 2, from-to
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 0, 20, 0),
+                                child: Text(
+                                  'From',
+                                  style: GoogleFonts.poppins(
+                                      color:
+                                          const Color.fromARGB(200, 48, 50, 52),
+                                      fontSize: 15),
+                                )),
                           ),
-                        )),
-                      ],
-                    ),
-                    //ROW for tab 3, from-to
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                              padding: const EdgeInsets.fromLTRB(25, 0, 20, 0),
-                              child: Text(
-                                'From',
-                                style: GoogleFonts.poppins(
-                                    color:
-                                        const Color.fromARGB(200, 48, 50, 52),
-                                    fontSize: 15),
-                              )),
-                        ),
-                        Expanded(
-                          child: Container(
-                              padding: const EdgeInsets.fromLTRB(25, 0, 20, 0),
-                              child: Text(
-                                'To',
-                                style: GoogleFonts.poppins(
-                                    color:
-                                        const Color.fromARGB(200, 48, 50, 52),
-                                    fontSize: 15),
-                              )),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
+                          Expanded(
                             child: Container(
-                                margin:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blueAccent),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0)),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 10, 10, 10),
-                                      child: DropdownButton2(
-                                        items: dropdownItems5,
-                                        value: dropdownvalue9,
-                                        onChanged: dropdownCallback9,
-                                        dropdownMaxHeight: 200,
-                                        iconSize: 20,
-                                        isDense: true,
-                                        isExpanded: true,
-                                        iconEnabledColor: Colors.blue,
-                                      )),
-                                ))),
-                        Expanded(
-                            child: Container(
-                                //DropDown Button RIGHT
-                                margin:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                                padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                decoration: BoxDecoration(
-                                  //color: Colors.amber,
-                                  border: Border.all(color: Colors.blueAccent),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0)),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 10, 10, 10),
-                                      child: DropdownButton2(
-                                        items: dropdownItems5,
-                                        value: dropdownvalue10,
-                                        onChanged: dropdownCallback10,
-                                        dropdownMaxHeight: 200,
-                                        iconSize: 20,
-                                        isDense: true,
-                                        isExpanded: true,
-                                        iconEnabledColor: Colors.blue,
-                                      )),
-                                )))
-                      ],
-                    ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Container(
-                          padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                          width: MediaQuery.of(context).size.width * .95,
-                          child: Expanded(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.deepPurple,
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 0, 20, 0),
+                                child: Text(
+                                  'To',
+                                  style: GoogleFonts.poppins(
+                                      color:
+                                          const Color.fromARGB(200, 48, 50, 52),
+                                      fontSize: 15),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(20, 0, 20, 10),
                                   padding:
-                                      const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                                  textStyle: const TextStyle(fontSize: 20)),
-                              child: const Text(('Convert Now!')),
+                                      const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                  decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.blueAccent),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0)),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 10, 10, 10),
+                                        child: DropdownButton2(
+                                          items: dropdownItems4,
+                                          value: dropdownvalue7,
+                                          onChanged: dropdownCallback7,
+                                          dropdownMaxHeight: 200,
+                                          iconSize: 20,
+                                          isDense: true,
+                                          isExpanded: true,
+                                          iconEnabledColor: Colors.blue,
+                                        )),
+                                  ))),
+                          Expanded(
+                              child: Container(
+                                  //DropDown Button RIGHT
+                                  margin:
+                                      const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                  decoration: BoxDecoration(
+                                    //color: Colors.amber,
+                                    border:
+                                        Border.all(color: Colors.blueAccent),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0)),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 10, 10, 10),
+                                        child: DropdownButton2(
+                                          items: dropdownItems4,
+                                          value: dropdownvalue8,
+                                          onChanged: dropdownCallback8,
+                                          dropdownMaxHeight: 200,
+                                          iconSize: 20,
+                                          isDense: true,
+                                          isExpanded: true,
+                                          iconEnabledColor: Colors.blue,
+                                        )),
+                                  )))
+                        ],
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                                width: MediaQuery.of(context).size.width * .95,
+                                child: Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.deepPurple,
+                                        padding: const EdgeInsets.fromLTRB(
+                                            15, 10, 15, 10),
+                                        textStyle:
+                                            const TextStyle(fontSize: 20)),
+                                    child: const Text(('Convert Now!')),
+                                    onPressed: () {
+                                      calculateTemp(TempController.text);
+                                      FocusScopeNode currentFocus =
+                                          FocusScope.of(context);
+                                      if (!currentFocus.hasPrimaryFocus) {
+                                        currentFocus.unfocus();
+                                      }
+                                    },
+                                  ),
+                                )),
+                          ]),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(20, 10, 0, 0),
+                              child: Text(
+                                'Output Value: ',
+                                style: GoogleFonts.poppins(
+                                    color:
+                                        const Color.fromARGB(200, 48, 50, 52),
+                                    fontSize: 15),
+                              ),
+                              // decoration: BoxDecoration(),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.blue, width: 2.0),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 14, 0, 10),
+                                margin: const EdgeInsets.fromLTRB(25, 0, 0, 50),
+                                child: Text(
+                                  outputTemp,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color.fromRGBO(
+                                          48, 50, 52, 0.784),
+                                      fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                )),
+                          ),
+                          Container(
+                            //Copy ICON
+                            //color: Colors.amber,
+                            margin: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                            child: TextButton.icon(
+                              label: const Text(''),
+                              icon: const Icon(
+                                Icons.copy,
+                                color: Colors.black,
+                              ),
                               onPressed: () {
-                                calculateBase(BaseController.text);
-                                FocusScopeNode currentFocus =
-                                    FocusScope.of(context);
-                                if (!currentFocus.hasPrimaryFocus) {
-                                  currentFocus.unfocus();
-                                }
+                                Clipboard.setData(
+                                        ClipboardData(text: outputTemp))
+                                    .then((_) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Copied to your clipboard !')));
+                                });
                               },
                             ),
-                          )),
-                    ]),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(20, 10, 0, 0),
-                            child: Text(
-                              'Output Value: ',
-                              style: GoogleFonts.poppins(
-                                  color: const Color.fromARGB(200, 48, 50, 52),
-                                  fontSize: 15),
-                            ),
-                            // decoration: BoxDecoration(),
                           ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.blue, width: 2.0),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10))),
-                              padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
-                              margin: const EdgeInsets.fromLTRB(25, 0, 0, 50),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ]),
+            // Thats the end for Tab 2
+
+            // Tab 3
+            Row(children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const Padding(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 20)),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(25, 5, 20, 5),
+                                  child: Text(
+                                    'Number System',
+                                    style: GoogleFonts.poppins(
+                                        color: const Color.fromARGB(
+                                            200, 48, 50, 52),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  )))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 10, 20, 15),
+                              child: TextFormField(
+                                maxLength: 20,
+                                controller: BaseController,
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                  decimal: true,
+                                  signed: true,
+                                ),
+                                inputFormatters: [
+                                  DecimalTextInputFormatter(),
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp(r'[\s\,[\.\.]]')),
+                                ],
+                                decoration: const InputDecoration(
+                                    labelText: 'Enter a value',
+                                    hintStyle: TextStyle(fontSize: 10),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)))),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      //ROW for tab 3, from-to
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 0, 20, 0),
+                                child: Text(
+                                  'From',
+                                  style: GoogleFonts.poppins(
+                                      color:
+                                          const Color.fromARGB(200, 48, 50, 52),
+                                      fontSize: 15),
+                                )),
+                          ),
+                          Expanded(
+                            child: Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 0, 20, 0),
+                                child: Text(
+                                  'To',
+                                  style: GoogleFonts.poppins(
+                                      color:
+                                          const Color.fromARGB(200, 48, 50, 52),
+                                      fontSize: 15),
+                                )),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                  decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: Colors.blueAccent),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0)),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 10, 10, 10),
+                                        child: DropdownButton2(
+                                          items: dropdownItems5,
+                                          value: dropdownvalue9,
+                                          onChanged: dropdownCallback9,
+                                          dropdownMaxHeight: 200,
+                                          iconSize: 20,
+                                          isDense: true,
+                                          isExpanded: true,
+                                          iconEnabledColor: Colors.blue,
+                                        )),
+                                  ))),
+                          Expanded(
+                              child: Container(
+                                  //DropDown Button RIGHT
+                                  margin:
+                                      const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                  decoration: BoxDecoration(
+                                    //color: Colors.amber,
+                                    border:
+                                        Border.all(color: Colors.blueAccent),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0)),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 10, 10, 10),
+                                        child: DropdownButton2(
+                                          items: dropdownItems5,
+                                          value: dropdownvalue10,
+                                          onChanged: dropdownCallback10,
+                                          dropdownMaxHeight: 200,
+                                          iconSize: 20,
+                                          isDense: true,
+                                          isExpanded: true,
+                                          iconEnabledColor: Colors.blue,
+                                        )),
+                                  )))
+                        ],
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                                width: MediaQuery.of(context).size.width * .95,
+                                child: Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.deepPurple,
+                                        padding: const EdgeInsets.fromLTRB(
+                                            15, 10, 15, 10),
+                                        textStyle:
+                                            const TextStyle(fontSize: 20)),
+                                    child: const Text(('Convert Now!')),
+                                    onPressed: () {
+                                      calculateBase(BaseController.text);
+                                      FocusScopeNode currentFocus =
+                                          FocusScope.of(context);
+                                      if (!currentFocus.hasPrimaryFocus) {
+                                        currentFocus.unfocus();
+                                      }
+                                    },
+                                  ),
+                                )),
+                          ]),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            child: Container(
+                              margin: const EdgeInsets.fromLTRB(20, 10, 0, 0),
                               child: Text(
-                                outputBase,
+                                'Output Value: ',
                                 style: GoogleFonts.poppins(
                                     color:
-                                        const Color.fromRGBO(48, 50, 52, 0.784),
-                                    fontSize: 16),
-                                textAlign: TextAlign.center,
-                              )),
-                        ),
-                        Container(
-                          //Copy ICON
-                          //color: Colors.amber,
-                          margin: const EdgeInsets.fromLTRB(20, 0, 15, 0),
-                          padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                          child: TextButton.icon(
-                            label: const Text(''),
-                            icon: const Icon(
-                              Icons.copy,
-                              color: Colors.black,
+                                        const Color.fromARGB(200, 48, 50, 52),
+                                    fontSize: 15),
+                              ),
+                              // decoration: BoxDecoration(),
                             ),
-                            onPressed: () {
-                              Clipboard.setData(ClipboardData(text: outputBase))
-                                  .then((_) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Copied to your clipboard !')));
-                              });
-                            },
+                          )
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.blue, width: 2.0),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 14, 0, 10),
+                                margin: const EdgeInsets.fromLTRB(25, 0, 0, 50),
+                                child: Text(
+                                  outputBase,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color.fromRGBO(
+                                          48, 50, 52, 0.784),
+                                      fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                )),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Container(
+                            //Copy ICON
+                            //color: Colors.amber,
+                            margin: const EdgeInsets.fromLTRB(20, 0, 15, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                            child: TextButton.icon(
+                              label: const Text(''),
+                              icon: const Icon(
+                                Icons.copy,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                Clipboard.setData(
+                                        ClipboardData(text: outputBase))
+                                    .then((_) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Copied to your clipboard !')));
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               )
             ]),

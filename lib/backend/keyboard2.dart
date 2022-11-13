@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:calculator/backend/keyboardProvider.dart';
 import 'package:calculator/services/ColorProvider.dart';
+import 'package:calculator/services/ConstantProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 //import 'package:flutter_icons/flutter_icons.dart';
@@ -18,16 +19,35 @@ class KeyBoard2 extends StatelessWidget {
   List<Widget> _buildLowButton(
       MathBoxController mathBoxController, BuildContext context) {
     List<Widget> button = [];
-    for (MapEntry<String, double> constant
-        in Provider.of<KeyboardProvider>(context, listen: false)
-            .constants
-            .entries) {
-      String name = constant.key;
-      double val = constant.value;
-      button.add(MyButton(
-        child: Text('$name'),
+    // for (MapEntry<String, double> constant
+    //     in Provider.of<KeyboardProvider>(context, listen: false)
+    //         .constants
+    //         .entries) {
+    //   String name = constant.key;
+    //   double val = constant.value;
+    //   button.add(MyButton(
+    //     child: Text('$name'),
+    //     onPressed: () {
+    //       mathBoxController.addExpression(val.toString());
+    //     },
+    //   ));
+    // }
+    for (var i = 0; i < 10; i++) {
+      button.add(TextButton(
+        child: Text(Provider.of<ConstantProvider>(context, listen: false)
+            .allUsers
+            .elementAt(i)
+            .unit),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
+          foregroundColor: MaterialStateProperty.all(Colors.black),
+        ),
         onPressed: () {
-          mathBoxController.addExpression(val.toString());
+          String value = Provider.of<ConstantProvider>(context, listen: false)
+              .allUsers
+              .elementAt(i)
+              .value;
+          mathBoxController.addString('$value');
         },
       ));
     }

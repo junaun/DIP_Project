@@ -14,6 +14,12 @@ class LangProvider with ChangeNotifier {
   String calcSetting = "Calculation precision";
   String keyboardIcon = "Keyboard";
   String calcbotIcon = "Calcboard";
+  String polynomial = "Polynomial";
+  String linear = "Linear";
+  String quadratic = "Quadratic";
+  String cubic = "Cubic";
+  String quartic = "Quartic";
+  String complicatedfunctions = "Complicated Functions";
 
   LangController(int newSize) {}
 
@@ -30,6 +36,12 @@ class LangProvider with ChangeNotifier {
     calcSetting = "计算精度";
     keyboardIcon = "键盘";
     calcbotIcon = "语音机器人";
+    polynomial = "多项式";
+    linear = "线性函数";
+    quadratic = "二次函数";
+    cubic = "三次函数";
+    quartic = "四次函数";
+    complicatedfunctions = "复杂函数";
     notifyListeners();
   }
 
@@ -44,6 +56,13 @@ class LangProvider with ChangeNotifier {
     modeSetting = "Exam Mode";
     angleSetting = "Angle Unit";
     calcSetting = "Calculation precision";
+    polynomial = "Polynomial";
+    linear = "Linear";
+    quadratic = "Quadratic";
+    cubic = "Cubic";
+    quartic = "Quartic";
+    complicatedfunctions = "Complicated Functions";
+
     notifyListeners();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:calculator/backend/editablePage.dart';
 import 'package:calculator/backend/slideKeyboard.dart';
 import 'package:calculator/buttonBox.dart';
+import 'package:calculator/customPage.dart';
 import 'package:calculator/diffrentiation.dart';
 import 'package:calculator/displayBox.dart';
 import 'package:calculator/containerHistory.dart';
@@ -9,8 +10,11 @@ import 'package:calculator/equations.dart';
 import 'package:calculator/plotting/Plotted_type.dart';
 import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/FontProvider.dart';
+import 'package:calculator/services/ConstantProvider.dart';
 import 'package:calculator/services/LockProvider.dart';
 import 'package:calculator/services/LangProvider.dart';
+import 'package:calculator/sql/DatabaseHelper.dart';
+import 'package:calculator/unitConvert_new.dart';
 import 'package:provider/provider.dart';
 import 'package:calculator/services/displayStrController.dart';
 import 'package:calculator/unitConv.dart';
@@ -38,6 +42,12 @@ class _HomePageState extends State<HomePage>
   int _currentIndex = 0;
   double myvalue = 0;
   List tabs = ["Basic", "Matrix"];
+  final dbHelper = DatabaseHelper.instance;
+  void _query() async {
+    final allRows = await dbHelper.queryAllRows();
+    print('query all rows:');
+    allRows.forEach(print);
+  }
   // final _bottomNavigationBarItems = [
   //   BottomNavigationBarItem(
   //       icon: Icon(Icons.keyboard, color: Provider.of<ColorProvider>(context,listen:false).color), label: "Keyboard"),
@@ -67,6 +77,7 @@ class _HomePageState extends State<HomePage>
           icon: Icon(Icons.keyboard,
               color: Provider.of<ColorProvider>(context, listen: false).color),
           label: Provider.of<LangProvider>(context).keyboardIcon),
+
       //title: Text('Blue', style: TextStyle(color: Colors.blue))),
       BottomNavigationBarItem(
           icon: Icon(Icons.support_agent,
@@ -136,7 +147,11 @@ class _HomePageState extends State<HomePage>
                     Scaffold.of(context).openDrawer();
                   });
             }),
-            title: Text(Provider.of<LangProvider>(context).homeBar,
+            title: Text(
+                Provider.of<ConstantProvider>(context, listen: false)
+                    .allUsers
+                    .elementAt(0)
+                    .quantity,
                 style: TextStyle(
                     fontSize: Provider.of<FontProvider>(context).fontSize)),
             backgroundColor: Provider.of<ColorProvider>(context).getColor(),
@@ -151,7 +166,7 @@ class _HomePageState extends State<HomePage>
                       ),
                       PopupMenuItem<int>(
                         value: 1,
-                        child: Text("Integration"),
+                        child: Text("Physical Constants"),
                       ),
                       PopupMenuItem<int>(
                         value: 2,
@@ -200,8 +215,11 @@ class _HomePageState extends State<HomePage>
                         );
                       }
                     } else if (value == 1) {
-                      Provider.of<ColorProvider>(context, listen: false)
-                          .changeColor(Colors.white);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const customPage()),
+                      );
                     } else if (value == 2) {
                       print("graph plotting is selected.");
                       Navigator.push(
@@ -214,7 +232,7 @@ class _HomePageState extends State<HomePage>
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Convertor()),
+                            builder: (context) => const UnitConversion()),
                       );
                     } else if (value == 4) {
                       //print("unitconversion is selected.");
@@ -222,6 +240,7 @@ class _HomePageState extends State<HomePage>
                     } else if (value == 5) {
                       //print("unitconversion is selected.");
                       //setting.changeInitpage(0);
+                      _query();
                       mode.changeMode(Mode.Basic);
                     } else if (value == 6) {
                       //print("unitconversion is selected.");
@@ -317,3 +336,4 @@ class calculationPage extends StatelessWidget {
 //         });
 //   }
 // }
+ 

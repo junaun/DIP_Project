@@ -11,6 +11,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'dart:math';
 
+import 'package:math_keyboard/math_keyboard.dart';
+
 void main() {
   runApp(
     MaterialApp(
@@ -70,7 +72,8 @@ class _UnitConversionState extends State<UnitConversion> {
   var base;
   var finalBase;
 
-  final lengthController = TextEditingController();
+  static String a = "ss";
+  var lengthController = TextEditingController(text: a);
   final areaController = TextEditingController();
   final volumeController = TextEditingController();
   final TempController = TextEditingController();
@@ -1250,6 +1253,12 @@ class _UnitConversionState extends State<UnitConversion> {
                                     const EdgeInsets.fromLTRB(20, 10, 20, 15),
 
                                 child: TextFormField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      lengthController.text =
+                                          lengthController.text.substring(0, 2);
+                                    });
+                                  },
                                   maxLength: 20,
                                   controller: areaController,
                                   keyboardType:
@@ -1970,6 +1979,11 @@ class _UnitConversionState extends State<UnitConversion> {
                           padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
 
                           child: TextFormField(
+                            onTap: () {
+                              setState(() {
+                                lengthController.text = "updated value";
+                              });
+                            },
                             maxLength: 20,
                             controller: BaseController,
                             keyboardType: const TextInputType.numberWithOptions(

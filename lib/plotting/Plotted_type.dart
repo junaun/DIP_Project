@@ -24,7 +24,8 @@ class TypeselectionState extends State<Typeselection> {
       appBar: AppBar(
         backgroundColor:
             Provider.of<ColorProvider>(context, listen: false).color,
-        title: Text(Provider.of<LangProvider>(context, listen: false).plotBar,
+        title: Text(
+            Provider.of<LangProvider>(context, listen: false).polynomial,
             style: TextStyle(
                 fontSize: Provider.of<FontProvider>(context).fontSize)),
         actions: <Widget>[
@@ -45,36 +46,40 @@ class TypeselectionState extends State<Typeselection> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              "Polynomial",
+            Text(
+              Provider.of<LangProvider>(context, listen: false).plotBar,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 ElevatedButton(
-                  child: const Text(" Linear  "),
+                  child: Text(
+                      Provider.of<LangProvider>(context, listen: false).linear),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const linear_graph()));
                   },
                 ),
                 ElevatedButton(
-                  child: const Text("Quadratic"),
+                  child: Text(Provider.of<LangProvider>(context, listen: false)
+                      .quadratic),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const quadratic_graph()));
                   },
                 ),
                 ElevatedButton(
-                  child: const Text("  Cubic  "),
+                  child: Text(
+                      Provider.of<LangProvider>(context, listen: false).cubic),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const cubic_graph()));
                   },
                 ),
                 ElevatedButton(
-                  child: const Text(" Quartic "),
+                  child: Text(Provider.of<LangProvider>(context, listen: false)
+                      .quartic),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const quartic_graph()));
@@ -83,8 +88,9 @@ class TypeselectionState extends State<Typeselection> {
               ],
             ),
             const Padding(padding: EdgeInsets.all(20.0)),
-            const Text(
-              "Complicated funtions",
+            Text(
+              Provider.of<LangProvider>(context, listen: false)
+                  .complicatedfunctions,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             ElevatedButton(
@@ -92,7 +98,8 @@ class TypeselectionState extends State<Typeselection> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const complicated_graph()));
                 },
-                child: const Text("Complicated")),
+                child: Text(Provider.of<LangProvider>(context, listen: false)
+                    .complicatedfunctions)),
           ],
         ),
       ),

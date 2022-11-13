@@ -2,10 +2,11 @@ import 'package:calculator/backend/editablePage.dart';
 import 'package:calculator/backend/slideKeyboard.dart';
 import 'package:calculator/buttonBox.dart';
 //import 'package:calculator/customPage.dart';
-import 'package:calculator/customPage2.dart';
+import 'package:calculator/customPage.dart';
 import 'package:calculator/diffrentiation.dart';
 import 'package:calculator/displayBox.dart';
 import 'package:calculator/containerHistory.dart';
+import 'package:calculator/matrix.dart';
 import 'package:calculator/settings.dart';
 import 'package:calculator/equations.dart';
 import 'package:calculator/plotting/Plotted_type.dart';
@@ -31,6 +32,8 @@ import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/slidcomponent.dart';
 import 'package:calculator/robot/SpeechScreen.dart';
 import 'package:calculator/robot/test.dart' as test;
+
+import 'customPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -196,12 +199,12 @@ class _HomePageState extends State<HomePage>
                   onSelected: (value) {
                     if (value == 0) {
                       if (Provider.of<LockProvider>(context, listen: false)
-                          .getLockEquation()) {
+                          .isLockEquation) {
                         showDialog<String>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             title: const Text('Access Denied'),
-                            content: const Text('Equation is locked'),
+                            content: const Text('This Function is locked'),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () => Navigator.pop(context, 'OK'),
@@ -219,18 +222,51 @@ class _HomePageState extends State<HomePage>
                         );
                       }
                     } else if (value == 1) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const customPage()),
-                      );
+                      if (Provider.of<LockProvider>(context, listen: false)
+                          .isLockEquation) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Access Denied'),
+                            content: const Text('This Function is locked'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Matrices()),
+                        );
+                      }
                     } else if (value == 2) {
-                      print("graph plotting is selected.");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Typeselection()),
-                      );
+                      if (Provider.of<LockProvider>(context, listen: false)
+                          .isLockPlot) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Access Denied'),
+                            content: const Text('This Function is locked'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Typeselection()),
+                        );
+                      }
                     } else if (value == 3) {
                       print("unitconversion is selected.");
                       Navigator.push(

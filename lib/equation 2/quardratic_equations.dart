@@ -17,22 +17,20 @@ class EquationApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(title: const Text('Quardratic Equation Solver'),
+        home: Scaffold(
+      appBar: AppBar(
+          title: const Text('Quardratic Equation Solver'),
           leading: IconButton(
-                onPressed: (){
-                 Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const Typeselection()));
-                },
-                icon:Icon(Icons.arrow_back_ios), 
-                //replace with our own icon data.
-            )
-          ),
-          body: Container(
-        padding: const EdgeInsets.all(20.0),
-          
-           child :
-          Column(children: [
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const Typeselection()));
+            },
+            icon: Icon(Icons.arrow_back_ios),
+            //replace with our own icon data.
+          )),
+      body: Container(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(children: [
             Row(
               children: [
                 Expanded(

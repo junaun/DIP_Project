@@ -1,9 +1,11 @@
 //import 'dart:ffi';
+import 'package:provider/provider.dart';
 import 'package:calculator/backend/mathbox.dart';
 import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/diffrentiation.dart';
 import 'package:calculator/homePage.dart';
 import 'package:calculator/keyboard.dart';
+import 'package:calculator/services/ColorProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -979,6 +981,8 @@ class _UnitConversionState extends State<UnitConversion>
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+            backgroundColor:
+                Provider.of<ColorProvider>(context, listen: false).color,
             title: const Text("UNIT CONVERSION"),
             centerTitle: true,
             bottom: const TabBar(

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/HistoryProvider.dart';
 //import "package:calculator/services/historyProvider.dart";
 import "package:calculator/services/displayStrController.dart";
@@ -53,10 +54,12 @@ class containerHistoryState extends State<ContainerHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            backgroundColor:
+                Provider.of<ColorProvider>(context, listen: false).color,
             title: Text(
-          "History",
-          style: TextStyle(),
-        )),
+              "History",
+              style: TextStyle(),
+            )),
         body: Container(
           child: Padding(
             padding: const EdgeInsets.all(8.0),

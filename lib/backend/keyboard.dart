@@ -456,7 +456,7 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
         size: iconSize,
       ),
       onPressed: () {
-        mathBoxController.addExpression(')');
+        //mathBoxController.addExpression(')');
         mathBoxController.addExpression('^');
         mathBoxController.addExpression('2');
       },

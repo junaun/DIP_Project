@@ -155,6 +155,8 @@ class KeyBoard2 extends StatelessWidget {
         mathBoxController.addExpression('x');
         mathBoxController.addExpression('\\\\to');
         mathBoxController.addExpression('\\infty');
+        mathBoxController.addKey('Right');
+        mathBoxController.addExpression('(');
       },
     ));
     button.add(MyButton(

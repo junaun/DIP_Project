@@ -2,8 +2,11 @@
 <html>
 <head>
 <link rel="stylesheet" href="./mathquill_v2.css"/>
-<script src="./jquery-3.4.1.min.js"></script>
-<script src="./mathquill.min.js"></script>
+<script src="./jquery-3.6.1.min.js"></script>
+<script src="./mathquill.js"></script>
+<script src='algebra-latex.js'></script>
+<script src='algebrite.js'></script>
+<script src='nerdamer.js'></script>
 </head>
 
 <body>
@@ -35,7 +38,36 @@ function addCmd(message, {isOperator = false}) {
     }
     mathField.cmd(message);
     mathField.focus();
-    postLaTex();
+    if (mathField.latex().includes("int_")){
+        postLaTex_def_integrate();
+    }else if (mathField.latex().includes("int")){
+        postLaTex_integrate();
+    }else if(mathField.latex().includes("frac{d}{dx}")){
+        postLaTex_differentiate();
+    }else if (mathField.latex().includes("nroots")){
+        postLatex_nroots();
+    }else if(mathField.latex().includes("partfrac")){
+        postLaTex_partfrac();
+    }else if(mathField.latex().includes("lim")){
+        postLaTex_limit();
+    }else if (mathField.latex().includes("i") 
+              && mathField.latex().includes("sin")==false 
+              && mathField.latex().includes("cos")==false 
+              && mathField.latex().includes("tan")==false 
+              && mathField.latex().includes("pi")==false 
+              && mathField.latex().includes("log")==false
+              && mathField.latex().includes("lim")==false){
+        if (mathField.latex().includes("polar")){
+            postLaTex_polar();
+        }else{
+            postLaTex_complex();
+        }
+       
+    }else if(mathField.latex().includes("x")){
+        postLaTex_x();
+    }else{
+        postLaTex();
+    }
 }
 
 function equal() {
@@ -74,6 +106,138 @@ function postLaTex() {
 
 function postClearable() {
     clearable.postMessage(isClearable.toString());
+}
+
+
+function postLaTex_limit() {
+    let to_pattern = /\\lim_\{x\\to([\s\S]*)\}\\left\(+?/;
+    let limit_pattern = /lim_\{x\\to[\s\S]*\}\\left\(([\s\S]*)\\right\)+?/;
+    let to = mathField.latex().match(to_pattern)[1];
+    let limit = mathField.latex().match(limit_pattern)[1];
+
+    if(to.includes("\\inf")){
+       to = "Infinity";
+    }
+
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(limit);//.toMath();
+    var res = algeObj.toAlgebrite(window.Algebrite).toString()
+    var class2 = nerdamer;
+    var limit_n = class2('limit('+res+',x,'+to+')').toString();
+    var limit_latex = class2.convertToLaTeX(limit_n);
+    parsed_latex.postMessage(limit_latex);
+}
+
+function postLaTex_def_integrate() {
+    let low_pattern = /int_([\s\S]*)\^+?[\s\S]*?\\left\(+?[\s\S]*\\right\)dx+?/
+    let up_pattern = /int_[\s\S]*\^+?([\s\S]*)?\\left\(+?[\s\S]*\\right\)dx+?/
+    let defint_pattern = /int_[\s\S]*\^+?[\s\S]*?\\left\(+?([\s\S]*)\\right\)dx+?/
+    let low = mathField.latex().match(low_pattern)[1];
+    let high = mathField.latex().match(up_pattern)[1];
+    let defint = mathField.latex().match(defint_pattern);
+    const latexInput = defint[1];
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(latexInput);//.toMath();
+    var res = algeObj.toAlgebrite(window.Algebrite).toString()
+    var defint_int = window.Algebrite.eval('defint('+res+',x,'+low+','+high+')').toString()
+    var class2 = nerdamer;
+    var defint_int_latex = class2.convertToLaTeX(defint_int);
+    latexString.postMessage(defint_int_latex);
+}
+
+function postLaTex_integrate() {
+    let int_pattern = /\\int\\left\(+([\s\S]*)\\right\)dx+/
+    let extracted = mathField.latex().match(int_pattern);
+    const latexInput = extracted[1];
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(latexInput);//.toMath();
+    var res = algeObj.toAlgebrite(window.Algebrite).toString()
+    try {
+        var integral = window.Algebrite.integral(res) + "+c"
+    //var integral = window.Algebrite.integral(res).toString() + "+c"
+        var class2 = nerdamer;
+        var integral_latex = class2.convertToLaTeX(integral);
+    }
+    catch(err) {
+        integral_latex = "\\text{Sorry, no solution found}";
+    }
+    //var integral = window.Algebrite.integral(res) + "+c"
+    //var integral = window.Algebrite.integral(res).toString() + "+c"
+    //var class2 = nerdamer;
+    //var integral_latex = class2.convertToLaTeX(integral);
+    parsed_latex.postMessage(integral_latex);
+}
+
+function postLaTex_differentiate() {
+    let int_pattern = /\\frac\{d\}\{dx\}\\left\(+([\s\S]*)\\right\)/
+    let extracted = mathField.latex().match(int_pattern);
+    const latexInput = extracted[1];
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(latexInput);//.toMath();
+    var res = algeObj.toAlgebrite(window.Algebrite).toString()
+    var diff = window.Algebrite.eval('d('+res+')').toString()
+    var class2 = nerdamer;
+    var diff_latex = class2.convertToLaTeX(diff);
+    parsed_latex.postMessage(diff_latex);
+}
+
+function postLaTex_complex() {
+    var string = mathField.latex();
+    var replace1 = string.replace("\\times", "*");
+    var replace2 = replace1.replace("\\div", "/");
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(replace2);//.toMath();
+    var result = algeObj.toAlgebrite(window.Algebrite).toString()
+    var class2 = nerdamer;
+    var result_latex = class2.convertToLaTeX(result);
+    parsed_latex.postMessage(result_latex);
+}
+
+function postLatex_nroots() {
+    let nroot_pattern = /nroots\\left\(+([\s\S]*)\\right\)+/;
+    let extracted = mathField.latex().match(nroot_pattern);
+    const latexInput = extracted[1];
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(latexInput);//.toMath();
+    var result = algeObj.toAlgebrite(window.Algebrite).toString()
+    var roots = window.Algebrite.eval('nroots('+result+',x)').toString()
+    //var class2 = nerdamer;
+    //var roots_latex = class2.convertToLaTeX(roots);
+    parsed_latex.postMessage(roots);
+}
+
+function postLaTex_polar(){
+    let polar_pattern = /polar\\left\(+([\s\S]*)\\right\)+/;
+    let extracted = mathField.latex().match(polar_pattern);
+    const latexInput = extracted[1];
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(latexInput);//.toMath();
+    var result = algeObj.toAlgebrite(window.Algebrite).toString()
+    var polar = window.Algebrite.eval('polar('+result+')').toString()
+    var class2 = nerdamer;
+    var polar_latex = class2.convertToLaTeX(polar);
+    parsed_latex.postMessage(polar_latex);
+}
+
+function postLaTex_partfrac(){
+    let part_pattern = /partfrac\\left\(+([\s\S]*)\\right\)+/;
+    let extracted = mathField.latex().match(part_pattern);
+    const latexInput = extracted[1];
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(latexInput).toMath();
+    var class2 = nerdamer;
+    var part = class2('partfrac('+algeObj+', x)').evaluate().toString();
+    var part_latex = class2.convertToLaTeX(part);
+    parsed_latex.postMessage(part_latex);
+}
+
+function postLaTex_x(){
+    var class1 = new window.alge;
+    var algeObj = class1.parseLatex(mathField.latex());
+    var class2 = nerdamer;
+    var x = algeObj.toAlgebrite(window.Algebrite).toString()
+    var x_latex = class2.convertToLaTeX(x);
+    parsed_latex.postMessage(x_latex);
 }
 </script>
 

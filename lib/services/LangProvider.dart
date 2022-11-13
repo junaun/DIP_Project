@@ -21,7 +21,9 @@ class LangProvider with ChangeNotifier {
   String quartic = "Quartic";
   String complicatedfunctions = "Complicated Functions";
 
-  LangController(int newSize) {}
+  LangProvider() {
+    //homeBar = "Smart Calculator";
+  }
 
   change2SCN() {
     homeBar = "科学计算器";

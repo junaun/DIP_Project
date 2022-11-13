@@ -1,10 +1,13 @@
 import 'dart:ui';
+import 'package:calculator/services/HistoryProvider.dart';
+//import "package:calculator/services/historyProvider.dart";
 import "package:calculator/services/displayStrController.dart";
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ContainerHistory extends StatefulWidget {
   late DisplayStrController strController;
-  ContainerHistory(this.strController);
+  //ContainerHistory(this.strController);
   @override
   containerHistoryState createState() => containerHistoryState();
 }
@@ -12,7 +15,7 @@ class ContainerHistory extends StatefulWidget {
 class containerHistoryState extends State<ContainerHistory> {
   late TextEditingController _num1FieldController, _num2FieldController;
   late String _messageToUser;
-  final _saved = [];
+  var _saved = [];
   final _biggerFont = const TextStyle(fontSize: 18);
 
   final ScrollController _controller = ScrollController();
@@ -34,6 +37,7 @@ class containerHistoryState extends State<ContainerHistory> {
     _num1FieldController = TextEditingController();
     _num2FieldController = TextEditingController();
     _messageToUser = "";
+    _saved = Provider.of<HistoryProvider>(context, listen: false).history;
   }
 
   @override
@@ -47,19 +51,22 @@ class containerHistoryState extends State<ContainerHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(child: _historyCont(), flex: 3),
-            Expanded(child: _buildnum1TextField(), flex: 1),
-            Expanded(child: _buildnum2TextField(), flex: 1),
-            Expanded(child: _buildResultArea(), flex: 1),
-          ],
-        ),
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+            title: Text(
+          "History",
+          style: TextStyle(),
+        )),
+        body: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                Expanded(child: _historyCont(), flex: 3),
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _buildnum1TextField() {

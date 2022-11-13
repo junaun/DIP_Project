@@ -4,6 +4,7 @@ import 'package:calculator/services/FontProvider.dart';
 import 'package:calculator/services/LockProvider.dart';
 import 'package:calculator/services/ConstantProvider.dart';
 import 'package:calculator/services/LangProvider.dart';
+import 'package:calculator/services/HistoryProvider.dart';
 import 'package:calculator/backend/keyboardProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -60,6 +61,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<ColorProvider>(create: (_) => ColorProvider()),
           ChangeNotifierProvider<FontProvider>(create: (_) => FontProvider()),
           ChangeNotifierProvider<LangProvider>(create: (_) => LangProvider()),
+          ChangeNotifierProvider<HistoryProvider>(
+              create: (_) => HistoryProvider()),
           ChangeNotifierProvider<ConstantProvider>(
               create: (_) => ConstantProvider()),
           ChangeNotifierProvider<LockProvider>(create: (_) => LockProvider()),

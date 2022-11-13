@@ -129,20 +129,36 @@ function postLaTex_limit() {
 }
 
 function postLaTex_def_integrate() {
-    let low_pattern = /int_([\s\S]*)\^+?[\s\S]*?\\left\(+?[\s\S]*\\right\)dx+?/
-    let up_pattern = /int_[\s\S]*\^+?([\s\S]*)?\\left\(+?[\s\S]*\\right\)dx+?/
-    let defint_pattern = /int_[\s\S]*\^+?[\s\S]*?\\left\(+?([\s\S]*)\\right\)dx+?/
+
+    let low_pattern = /int_([\s\S]*)\^[\s\S]*\\left\[[\s\S]*\\right\]dx/;
+    let up_pattern = /int_[\s\S]*\^([\s\S]*)\\left\[[\s\S]*\\right\]dx/;
+    let defint_pattern = /int_[\s\S]*\^[\s\S]*\\left\[([\s\S]*)\\right\]dx/;
     let low = mathField.latex().match(low_pattern)[1];
     let high = mathField.latex().match(up_pattern)[1];
-    let defint = mathField.latex().match(defint_pattern);
-    const latexInput = defint[1];
+    let defint = mathField.latex().match(defint_pattern)[1];
+    if(low.includes("pi")){
+        low = low.substring(1, low.length-1);
+        var class1 = new window.alge;
+        var low1 = class1.parseLatex(low);
+        var low2 = low1.toAlgebrite(window.Algebrite).toString();
+        low =low2;
+    } 
+    if(high.includes("pi")){
+        high = high.substring(1, high.length-1);
+        var class1 = new window.alge;
+        var high1 = class1.parseLatex(high);
+        var high2 = high1.toAlgebrite(window.Algebrite).toString();
+        high = high2;
+    }
+    
     var class1 = new window.alge;
-    var algeObj = class1.parseLatex(latexInput);//.toMath();
+    var algeObj = class1.parseLatex(defint);
     var res = algeObj.toAlgebrite(window.Algebrite).toString()
     var defint_int = window.Algebrite.eval('defint('+res+',x,'+low+','+high+')').toString()
     var class2 = nerdamer;
     var defint_int_latex = class2.convertToLaTeX(defint_int);
-    latexString.postMessage(defint_int_latex);
+    
+    parsed_latex.postMessage(defint_int_latex);
 }
 
 function postLaTex_integrate() {

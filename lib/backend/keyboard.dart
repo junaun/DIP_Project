@@ -459,6 +459,7 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
         //mathBoxController.addExpression(')');
         mathBoxController.addExpression('^');
         mathBoxController.addExpression('2');
+        mathBoxController.addKey('Right');
       },
     ));
     button.add(MyButton(
@@ -469,7 +470,7 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
         size: iconSize,
       ),
       onPressed: () {
-        mathBoxController.addExpression(')');
+        //mathBoxController.addExpression(')');
         mathBoxController.addExpression('^');
       },
     ));

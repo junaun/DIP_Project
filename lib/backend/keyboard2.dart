@@ -78,8 +78,8 @@ class KeyBoard2 extends StatelessWidget {
         mathBoxController.addKey('Left');
         mathBoxController.addExpression('_');
         mathBoxController.addKey('Right Right');
-        mathBoxController.addExpression('(');
-        mathBoxController.addExpression(')');
+        mathBoxController.addExpression('[');
+        mathBoxController.addExpression(']');
         mathBoxController.addExpression('dx');
         mathBoxController.addKey('Left Left Left Left Left');
       },

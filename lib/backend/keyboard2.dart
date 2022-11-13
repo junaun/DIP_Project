@@ -53,7 +53,7 @@ class KeyBoard2 extends StatelessWidget {
     }
 
     button.add(TextButton(
-      child: Math.tex("nroots", textStyle: TextStyle(fontSize: 24)),
+      child: Math.tex("nroots", textStyle: TextStyle(fontSize: 20)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -67,7 +67,7 @@ class KeyBoard2 extends StatelessWidget {
     ));
     button.add(TextButton(
       child: Math.tex(r'\int_{\square}^{\square}dx',
-          textStyle: TextStyle(fontSize: 20)),
+          textStyle: TextStyle(fontSize: 16)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -86,7 +86,7 @@ class KeyBoard2 extends StatelessWidget {
     ));
     button.add(TextButton(
       child:
-          Math.tex(r'\frac{d}{dx}\square', textStyle: TextStyle(fontSize: 20)),
+          Math.tex(r'\frac{d}{dx}\square', textStyle: TextStyle(fontSize: 18)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -108,7 +108,7 @@ class KeyBoard2 extends StatelessWidget {
       },
     ));
     button.add(TextButton(
-      child: Math.tex(r'\int\square dx', textStyle: TextStyle(fontSize: 20)),
+      child: Math.tex(r'\int\square dx', textStyle: TextStyle(fontSize: 16)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -133,7 +133,7 @@ class KeyBoard2 extends StatelessWidget {
       },
     ));
     button.add(TextButton(
-      child: Math.tex(r'partfrac', textStyle: TextStyle(fontSize: 18)),
+      child: Math.tex(r'partfrac', textStyle: TextStyle(fontSize: 13)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -144,7 +144,7 @@ class KeyBoard2 extends StatelessWidget {
       },
     ));
     button.add(TextButton(
-      child: Math.tex(r'lim_{x\to\square}', textStyle: TextStyle(fontSize: 20)),
+      child: Math.tex(r'lim_{x\to\square}', textStyle: TextStyle(fontSize: 18)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),

@@ -190,19 +190,37 @@ class SecondScreen extends StatefulWidget {
   State<SecondScreen> createState() => _SecondScreenState();
 }
 
-class _SecondScreenState extends State<SecondScreen> {
+class _SecondScreenState extends State<SecondScreen>
+    with SingleTickerProviderStateMixin {
+  final List<TextEditingController> _controller =
+      List.generate(81, (i) => TextEditingController());
+  //final controller = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    for (final controller in _controller) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  // setState(() {
+  //   _controller.add(controller);
+  // });
+
+  // print('how many controller: {$controller}');
   String outputMatrix = "";
+  late String dropdownvalue = "transpose";
   var i, j;
   var a = 0;
   var finalMatrix;
+  var chunks = [];
+  late int chunkSize;
 
   List<String> matrixValues = [];
   List<num> stringToDouble = [];
   List<num> chunksToDouble = [];
-
-  final List<TextEditingController> _controller =
-      List.generate(81, (i) => TextEditingController());
-  late String dropdownvalue = "transpose";
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
@@ -216,7 +234,6 @@ class _SecondScreenState extends State<SecondScreen> {
   Array2d matrixTranspose(List chunks) {
     var b = Array2d.fixed(
         int.parse(widget.columnNumber), int.parse(widget.rowNumber));
-    print('input $b');
     for (var row = 0; row < int.parse(widget.rowNumber); row++) {
       for (var column = 0; column < int.parse(widget.columnNumber); column++) {
         b[column][row] = chunks[row][column];
@@ -235,7 +252,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
   void matrixCalculations(var chunks) {
     if (dropdownvalue == 'transpose') {
-      print(matrixTranspose(chunks));
+      //print(matrixTranspose(chunks));
       // setState(() {
       //   outputMatrix = '${matrixTranspose(chunks).toString()}';
       // });
@@ -244,31 +261,32 @@ class _SecondScreenState extends State<SecondScreen> {
       setState(() {
         outputMatrix = '$finalMatrix';
       });
+      matrixValues = [];
+      // stringToDouble.clear();
+      //outputMatrix = '$matrixValues';
+
     } else if (dropdownvalue == 'det') {
       if (widget.columnNumber != widget.rowNumber) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 'Determinants must be a Square Matrix, i.e 2x2, 3x3, etc')));
-      } else {
+      } else if (dropdownvalue == 'det' &&
+          widget.columnNumber != widget.rowNumber) {
         List<double> matrixDet = List<double>.from(chunksToDouble);
         print('the determinant is ${matrixDeterminants(matrixDet)}');
-        //Array chunksInput = chunks;
-        //  num det = matrixDeterminant(chunksInput);
-        //var det = matrixDeterminants(chunksInput);
-        //print(det);
       }
     }
   }
 
   void matrixSplit(List matrixValues) {
+    print('matrixValues = $matrixValues');
     for (int z = 0; z < matrixValues.length; ++z) {
       stringToDouble.add(double.parse(matrixValues[z]));
     }
     print("string to be converted to double: ${stringToDouble}");
     // List<double?> chunksDouble = [];
-    var chunks = [];
-    int chunkSize = j;
-
+    // var chunks = [];
+    chunkSize = j;
     //splitting into allocated rows through splitting by columns
     for (var y = 0; y < stringToDouble.length; y += (chunkSize - 1)) {
       chunks.add(stringToDouble.sublist(
@@ -283,6 +301,7 @@ class _SecondScreenState extends State<SecondScreen> {
     print('string to double is $stringToDouble');
     print("the split doubles are ${chunks}");
     matrixCalculations(chunks);
+    chunks = [];
     matrixValues.clear();
     stringToDouble.clear();
   }
@@ -302,22 +321,22 @@ class _SecondScreenState extends State<SecondScreen> {
 
     //int rows = int.parse('${widget.rowNumber}');
 
-    @override
-    void dispose() {
-      // Clean up the controller when the widget is disposed.
-      for (final controller in _controller) {
-        controller.dispose();
-      }
-      super.dispose();
-    }
+    // @override
+    // void dispose() {
+    //   // Clean up the controller when the widget is disposed.
+    //   for (final controller in _controller) {
+    //     controller.dispose();
+    //   }
+    //   super.dispose();
+    // }
 
-    final controller = TextEditingController();
+    // final controller = TextEditingController();
 
-    setState(() {
-      _controller.add(controller);
-    });
+    // setState(() {
+    //   _controller.add(controller);
+    // });
 
-    print('how many controller: {$controller}');
+    // print('how many controller: {$controller}');
     return Scaffold(
       appBar: AppBar(
         title: const Text("Matrix Input"),
@@ -407,15 +426,19 @@ class _SecondScreenState extends State<SecondScreen> {
                           if (_controller[x].text.isEmpty) {
                             _controller[x].text = '0';
                             matrixValues.add(_controller[x].text.toString());
-                          } else {
+                            print('controller values are $_controller');
+                          } else if (_controller[x].text.isNotEmpty) {
                             matrixValues.add(_controller[x].text.toString());
-                            // for (int k = 1; k <= ((i - 1) * (j - 1)); ++k) {
-                            //   matrixValues.add(_controller[k].text.toString());
-                            // }
-
+                            print('again my matrix values are $matrixValues');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'Please go back and reload page')));
                           }
                         }
                         matrixSplit(matrixValues);
+                        a = 0;
                       },
                     ),
                   )),

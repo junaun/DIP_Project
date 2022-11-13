@@ -1,6 +1,5 @@
 import 'dart:ffi';
 //import 'dart:html';
-import 'package:calculator/differntaition.dart';
 import 'package:calculator/homePage.dart';
 import 'package:calculator/keyboard.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +11,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'dart:math';
 import 'package:matrix2d/matrix2d.dart';
+import 'package:equations/equations.dart';
+import 'package:scidart/numdart.dart';
+import 'package:scidart/scidart.dart';
 
 class Matrices extends StatefulWidget {
   const Matrices({Key? key}) : super(key: key);
@@ -150,6 +152,11 @@ class _MatrixState extends State<Matrices> {
                                 const SnackBar(
                                     content: Text(
                                         'Fill in dimensions for Matrices')));
+                          } else if (rowRequestController.text == '0' ||
+                              columnRequestController.text == '0') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Dimension cannot be zero')));
                           } else {
                             String rowNumber = rowRequestController.text;
                             String columnNumber = columnRequestController.text;
@@ -184,9 +191,14 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
+  String outputMatrix = "";
   var i, j;
   var a = 0;
+  var finalMatrix;
+
   List<String> matrixValues = [];
+  List<num> stringToDouble = [];
+  List<num> chunksToDouble = [];
 
   final List<TextEditingController> _controller =
       List.generate(81, (i) => TextEditingController());
@@ -195,25 +207,84 @@ class _SecondScreenState extends State<SecondScreen> {
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(child: Text("Transpose"), value: "transpose"),
-      const DropdownMenuItem(child: Text("Inverse"), value: "inverse"),
+      // const DropdownMenuItem(child: Text("Inverse"), value: "inverse"),
       const DropdownMenuItem(child: Text("Determinant"), value: "det"),
     ];
     return menuItems;
   }
 
+  Array2d matrixTranspose(List chunks) {
+    var b = Array2d.fixed(
+        int.parse(widget.columnNumber), int.parse(widget.rowNumber));
+    print('input $b');
+    for (var row = 0; row < int.parse(widget.rowNumber); row++) {
+      for (var column = 0; column < int.parse(widget.columnNumber); column++) {
+        b[column][row] = chunks[row][column];
+      }
+    }
+    return b;
+  }
+
+  RealMatrix matrixDeterminants(List<double> matrixDet) {
+    final matrixA = RealMatrix.fromData(
+        columns: int.parse(widget.columnNumber),
+        rows: int.parse(widget.rowNumber),
+        data: [matrixDet]);
+    return matrixA;
+  }
+
+  void matrixCalculations(var chunks) {
+    if (dropdownvalue == 'transpose') {
+      print(matrixTranspose(chunks));
+      // setState(() {
+      //   outputMatrix = '${matrixTranspose(chunks).toString()}';
+      // });
+      finalMatrix = matrixTranspose(chunks).toString();
+      print('output matrix is $outputMatrix');
+      setState(() {
+        outputMatrix = '$finalMatrix';
+      });
+    } else if (dropdownvalue == 'det') {
+      if (widget.columnNumber != widget.rowNumber) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Determinants must be a Square Matrix, i.e 2x2, 3x3, etc')));
+      } else {
+        List<double> matrixDet = List<double>.from(chunksToDouble);
+        print('the determinant is ${matrixDeterminants(matrixDet)}');
+        //Array chunksInput = chunks;
+        //  num det = matrixDeterminant(chunksInput);
+        //var det = matrixDeterminants(chunksInput);
+        //print(det);
+      }
+    }
+  }
+
   void matrixSplit(List matrixValues) {
-    print(matrixValues);
+    for (int z = 0; z < matrixValues.length; ++z) {
+      stringToDouble.add(double.parse(matrixValues[z]));
+    }
+    print("string to be converted to double: ${stringToDouble}");
+    // List<double?> chunksDouble = [];
     var chunks = [];
     int chunkSize = j;
-    for (var y = 0; y < matrixValues.length; y += (chunkSize - 1)) {
-      chunks.add(matrixValues.sublist(
+
+    //splitting into allocated rows through splitting by columns
+    for (var y = 0; y < stringToDouble.length; y += (chunkSize - 1)) {
+      chunks.add(stringToDouble.sublist(
           y,
-          y + chunkSize > matrixValues.length
+          y + chunkSize > stringToDouble.length
               ? matrixValues.length
               : y + (chunkSize - 1)));
     }
-    print(chunks);
+    //chunksToDouble = double.tryParse(chunks) as List<num>;
+    print('column  size outside is ${chunkSize}');
+    print('chunks double: ${chunksToDouble}');
+    print('string to double is $stringToDouble');
+    print("the split doubles are ${chunks}");
+    matrixCalculations(chunks);
     matrixValues.clear();
+    stringToDouble.clear();
   }
 
   void dropdownCallback(String? selectedValue) {
@@ -246,8 +317,7 @@ class _SecondScreenState extends State<SecondScreen> {
       _controller.add(controller);
     });
 
-    print('how many controller+ {$controller}');
-    print('sadadsasda $a');
+    print('how many controller: {$controller}');
     return Scaffold(
       appBar: AppBar(
         title: const Text("Matrix Input"),
@@ -333,17 +403,42 @@ class _SecondScreenState extends State<SecondScreen> {
                           textStyle: const TextStyle(fontSize: 20)),
                       child: const Text('calculate'),
                       onPressed: () {
-                        for (int k = 1; k <= ((i - 1) * (j - 1)); ++k) {
-                          print(_controller[k].text.toString());
-                          matrixValues.add(_controller[k].text.toString());
-                          //print('k value is $k');
+                        for (int x = 1; x <= ((i - 1) * (j - 1)); ++x) {
+                          if (_controller[x].text.isEmpty) {
+                            _controller[x].text = '0';
+                            matrixValues.add(_controller[x].text.toString());
+                          } else {
+                            matrixValues.add(_controller[x].text.toString());
+                            // for (int k = 1; k <= ((i - 1) * (j - 1)); ++k) {
+                            //   matrixValues.add(_controller[k].text.toString());
+                            // }
+
+                          }
                         }
                         matrixSplit(matrixValues);
                       },
                     ),
-                  ))
+                  )),
                 ],
-              )
+              ),
+              Row(children: [
+                Expanded(
+                  child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blue, width: 2.0),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
+                      margin: const EdgeInsets.fromLTRB(25, 0, 25, 20),
+                      child: Text(
+                        outputMatrix,
+                        style: GoogleFonts.poppins(
+                            color: const Color.fromRGBO(48, 50, 52, 0.784),
+                            fontSize: 16),
+                        textAlign: TextAlign.center,
+                      )),
+                )
+              ])
             ],
           )),
     );

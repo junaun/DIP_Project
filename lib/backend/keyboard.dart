@@ -150,18 +150,17 @@ class MathKeyBoard extends StatelessWidget {
         },
       ),
     ));
-
     button.add(MyButton(
-      child: Text('π'),
+      child: Text('x'),
       onPressed: () {
-        mathBoxController.addExpression('\\pi');
+        mathBoxController.addExpression('x');
       },
     ));
 
     button.add(MyButton(
-      child: Text('e'),
+      child: Text('i'),
       onPressed: () {
-        mathBoxController.addExpression('e');
+        mathBoxController.addExpression('i');
       },
     ));
 
@@ -459,6 +458,7 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
         //mathBoxController.addExpression(')');
         mathBoxController.addExpression('^');
         mathBoxController.addExpression('2');
+        mathBoxController.addKey('Right');
       },
     ));
     button.add(MyButton(
@@ -469,7 +469,7 @@ class _ExpandKeyBoardState extends State<ExpandKeyBoard>
         size: iconSize,
       ),
       onPressed: () {
-        mathBoxController.addExpression(')');
+        //mathBoxController.addExpression(')');
         mathBoxController.addExpression('^');
       },
     ));

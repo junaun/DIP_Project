@@ -21,6 +21,7 @@ import 'package:calculator/unitConvert_new.dart';
 import 'package:provider/provider.dart';
 import 'package:calculator/services/displayStrController.dart';
 import 'package:calculator/unitConv.dart';
+import 'package:calculator/matrix.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:calculator/backend/mathbox.dart';
@@ -275,8 +276,11 @@ class _HomePageState extends State<HomePage>
                             builder: (context) => const UnitConversion()),
                       );
                     } else if (value == 4) {
-                      //print("unitconversion is selected.");
-                      mode.changeMode(Mode.Matrix);
+                      print("matrix is selected.");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Matrices()),
+                      );
                     } else if (value == 5) {
                       //print("unitconversion is selected.");
                       //setting.changeInitpage(0);
@@ -384,4 +388,3 @@ class calculationPage extends StatelessWidget {
 //         });
 //   }
 // }
- 

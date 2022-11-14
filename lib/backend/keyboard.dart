@@ -150,18 +150,17 @@ class MathKeyBoard extends StatelessWidget {
         },
       ),
     ));
-
     button.add(MyButton(
-      child: Text('π'),
+      child: Text('x'),
       onPressed: () {
-        mathBoxController.addExpression('\\pi');
+        mathBoxController.addExpression('x');
       },
     ));
 
     button.add(MyButton(
-      child: Text('e'),
+      child: Text('i'),
       onPressed: () {
-        mathBoxController.addExpression('e');
+        mathBoxController.addExpression('i');
       },
     ));
 

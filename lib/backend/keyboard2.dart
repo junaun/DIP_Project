@@ -146,15 +146,16 @@ class KeyBoard2 extends StatelessWidget {
     ));
 
     button.add(MyButton(
-      child: Text('x'),
+      child: Text('π'),
       onPressed: () {
-        mathBoxController.addExpression('x');
+        mathBoxController.addExpression('\\pi');
       },
     ));
+
     button.add(MyButton(
-      child: Text('i'),
+      child: Text('e'),
       onPressed: () {
-        mathBoxController.addExpression('i');
+        mathBoxController.addExpression('e');
       },
     ));
 

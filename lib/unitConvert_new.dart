@@ -1,7 +1,11 @@
 //import 'dart:ffi';
+import 'package:provider/provider.dart';
+import 'package:calculator/backend/mathbox.dart';
+import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/diffrentiation.dart';
 import 'package:calculator/homePage.dart';
 import 'package:calculator/keyboard.dart';
+import 'package:calculator/services/ColorProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,8 +14,9 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'dart:math';
-
-import 'package:math_keyboard/math_keyboard.dart';
+import 'package:calculator/backend/keyboardUnitConv.dart';
+import 'backend/mathmodel.dart';
+import 'homePage.dart';
 
 void main() {
   runApp(
@@ -38,7 +43,8 @@ class DecimalTextInputFormatter extends TextInputFormatter {
   }
 }
 
-class _UnitConversionState extends State<UnitConversion> {
+class _UnitConversionState extends State<UnitConversion>
+    with SingleTickerProviderStateMixin {
   late String dropdownvalue = "m";
   late String dropdownvalue2 = "m";
   late String dropdownvalue3 = 'm2';
@@ -72,12 +78,25 @@ class _UnitConversionState extends State<UnitConversion> {
   var base;
   var finalBase;
 
-  static String a = "ss";
-  var lengthController = TextEditingController(text: a);
+  final lengthController = TextEditingController();
   final areaController = TextEditingController();
   final volumeController = TextEditingController();
   final TempController = TextEditingController();
   final BaseController = TextEditingController();
+  final Server _server = Server();
+  final controllerFocusNode = FocusNode();
+  TabController? tabController;
+  int _currentIndex = 0;
+  double myvalue = 0;
+
+  final regEx2 = RegExp(r"([.]*0+)(?!.*\d)");
+
+  //  final mode = Provider.of<CalculationMode>(context, listen: false);
+  // //mode.changeMode(Mode.Basic);
+  // final mathBoxController =
+  //     Provider.of<MathBoxController>(context, listen: false);
+  // final setting = Provider.of<SettingModel>(context, listen: false);
+  final PageController _pageController = PageController();
 
   @override
   void dispose() {
@@ -121,7 +140,9 @@ class _UnitConversionState extends State<UnitConversion> {
 
         case 'km':
           newLength = length * pow(10, -9);
-          finalLength = newLength.toStringAsExponential(10);
+          finalLength = newLength
+              .toStringAsExponential(8)
+              .replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "");
           break;
 
         case 'miles':
@@ -959,34 +980,35 @@ class _UnitConversionState extends State<UnitConversion> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-          appBar: AppBar(
-              title: const Text("UNIT CONVERSION"),
-              centerTitle: true,
-              bottom: const TabBar(
-                isScrollable: true,
-                tabs: [
-                  Tab(text: "Geometric"),
-                  Tab(text: "Temperature"),
-                  Tab(text: "Number System"),
-                ],
-              )),
-          body: TabBarView(
-            children: [
-              /* TAB INFO SEPARATES WITH A COMMA*/
-              Row(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
+        appBar: AppBar(
+            backgroundColor:
+                Provider.of<ColorProvider>(context, listen: false).color,
+            title: const Text("UNIT CONVERSION"),
+            centerTitle: true,
+            bottom: const TabBar(
+              isScrollable: true,
+              tabs: [
+                Tab(text: "Geometric"),
+                Tab(text: "Temperature"),
+                Tab(text: "Number System"),
+              ],
+            )),
+        body: TabBarView(
+          children: [
+            /* TAB INFO SEPARATES WITH A COMMA*/
+            Row(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Expanded(
                       child: Column(
                         children: [
-                          const Padding(
-                              padding: EdgeInsets.fromLTRB(20, 5, 20, 20)),
                           Row(
                             children: [
                               Expanded(
                                 child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(25, 5, 20, 5),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        25, 25, 20, 5),
                                     child: Text(
                                       'Length',
                                       style: GoogleFonts.poppins(
@@ -1000,7 +1022,6 @@ class _UnitConversionState extends State<UnitConversion> {
                           ),
                           Row(
                             children: [
-                              //width: 340,
                               Expanded(
                                   child: Container(
                                 // margin: const EdgeInsets.fromLTRB(20, 10, 0, 10),
@@ -1011,8 +1032,7 @@ class _UnitConversionState extends State<UnitConversion> {
                                 child: TextFormField(
                                   maxLength: 20,
                                   controller: lengthController,
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(
+                                  keyboardType: TextInputType.numberWithOptions(
                                     decimal: true,
                                     signed: true,
                                   ),
@@ -1046,17 +1066,19 @@ class _UnitConversionState extends State<UnitConversion> {
                                           fontSize: 15),
                                     )),
                               ),
-                              Expanded(
-                                child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(25, 0, 20, 0),
-                                    child: Text(
-                                      'To',
-                                      style: GoogleFonts.poppins(
-                                          color: const Color.fromARGB(
-                                              200, 48, 50, 52),
-                                          fontSize: 15),
-                                    )),
+                              Container(
+                                child: Expanded(
+                                  child: Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          25, 0, 20, 0),
+                                      child: Text(
+                                        'To',
+                                        style: GoogleFonts.poppins(
+                                            color: const Color.fromARGB(
+                                                200, 48, 50, 52),
+                                            fontSize: 15),
+                                      )),
+                                ),
                               ),
                             ],
                           ),
@@ -1090,35 +1112,38 @@ class _UnitConversionState extends State<UnitConversion> {
                                               iconEnabledColor: Colors.blue,
                                             )),
                                       ))),
-                              Expanded(
-                                  child: Container(
-                                      //DropDown Button RIGHT
-                                      margin: const EdgeInsets.fromLTRB(
-                                          20, 0, 20, 10),
-                                      padding:
-                                          const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                                      decoration: BoxDecoration(
-                                        //color: Colors.amber,
-                                        border: Border.all(
-                                            color: Colors.blueAccent),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                      ),
-                                      child: DropdownButtonHideUnderline(
-                                        child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                10, 10, 10, 10),
-                                            child: DropdownButton2(
-                                              items: dropdownItems,
-                                              value: dropdownvalue2,
-                                              onChanged: dropdownCallback2,
-                                              dropdownMaxHeight: 200,
-                                              iconSize: 20,
-                                              isDense: true,
-                                              isExpanded: true,
-                                              iconEnabledColor: Colors.blue,
-                                            )),
-                                      )))
+                              Container(
+                                child: Expanded(
+                                    child: Container(
+                                        //DropDown Button RIGHT
+                                        margin: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 10),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            5, 5, 5, 5),
+                                        decoration: BoxDecoration(
+                                          //color: Colors.amber,
+                                          border: Border.all(
+                                              color: Colors.blueAccent),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(10.0)),
+                                        ),
+                                        child: DropdownButtonHideUnderline(
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      10, 10, 10, 10),
+                                              child: DropdownButton2(
+                                                items: dropdownItems,
+                                                value: dropdownvalue2,
+                                                onChanged: dropdownCallback2,
+                                                dropdownMaxHeight: 200,
+                                                iconSize: 20,
+                                                isDense: true,
+                                                isExpanded: true,
+                                                iconEnabledColor: Colors.blue,
+                                              )),
+                                        ))),
+                              )
                             ],
                           ),
 
@@ -1130,29 +1155,38 @@ class _UnitConversionState extends State<UnitConversion> {
                                         const EdgeInsets.fromLTRB(15, 5, 15, 5),
                                     width:
                                         MediaQuery.of(context).size.width * .95,
-                                    child: Expanded(
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.deepPurple,
-                                            padding: const EdgeInsets.fromLTRB(
-                                                5, 10, 5, 10),
-                                            textStyle:
-                                                const TextStyle(fontSize: 20)),
-                                        child: const Text(('Convert Now!')),
-                                        onPressed: () {
-                                          if (lengthController.text.isEmpty) {
-                                            lengthController.dispose;
-                                            outputLength = '';
-                                          } else {
-                                            calculateLen(lengthController.text);
-                                          }
-                                          FocusScopeNode currentFocus =
-                                              FocusScope.of(context);
-                                          if (!currentFocus.hasPrimaryFocus) {
-                                            currentFocus.unfocus();
-                                          }
-                                        },
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.deepPurple,
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        5, 10, 5, 10),
+                                                textStyle: const TextStyle(
+                                                    fontSize: 20)),
+                                            child: const Text(('Convert Now!')),
+                                            onPressed: () {
+                                              if (lengthController
+                                                  .text.isEmpty) {
+                                                lengthController.dispose;
+                                                outputLength = '';
+                                              } else {
+                                                calculateLen(
+                                                    lengthController.text);
+                                              }
+                                              FocusScopeNode currentFocus =
+                                                  FocusScope.of(context);
+                                              if (!currentFocus
+                                                  .hasPrimaryFocus) {
+                                                currentFocus.unfocus();
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     )),
                               ]),
                           Row(
@@ -1223,7 +1257,7 @@ class _UnitConversionState extends State<UnitConversion> {
                             ],
                           ),
 
-//AREA FORMATS
+                          //AREA FORMATS
                           Row(
                             children: [
                               Expanded(
@@ -1253,12 +1287,6 @@ class _UnitConversionState extends State<UnitConversion> {
                                     const EdgeInsets.fromLTRB(20, 10, 20, 15),
 
                                 child: TextFormField(
-                                  onChanged: (value) {
-                                    setState(() {
-                                      lengthController.text =
-                                          lengthController.text.substring(0, 2);
-                                    });
-                                  },
                                   maxLength: 20,
                                   controller: areaController,
                                   keyboardType:
@@ -1300,17 +1328,18 @@ class _UnitConversionState extends State<UnitConversion> {
                                           fontSize: 15),
                                     )),
                               ),
-                              Expanded(
-                                child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(25, 0, 20, 0),
-                                    child: Text(
-                                      'To',
-                                      style: GoogleFonts.poppins(
-                                          color: const Color.fromARGB(
-                                              200, 48, 50, 52),
-                                          fontSize: 15),
-                                    )),
+                              Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 0, 20, 0),
+                                child: Expanded(
+                                  child: Text(
+                                    'To',
+                                    style: GoogleFonts.poppins(
+                                        color: const Color.fromARGB(
+                                            200, 48, 50, 52),
+                                        fontSize: 15),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -1401,8 +1430,10 @@ class _UnitConversionState extends State<UnitConversion> {
                                             if (areaController.text.isEmpty) {
                                               areaController.dispose;
                                               outputArea = '';
+                                            } else {
+                                              calculateArea(
+                                                  areaController.text);
                                             }
-                                            calculateArea(areaController.text);
                                             FocusScopeNode currentFocus =
                                                 FocusScope.of(context);
                                             if (!currentFocus.hasPrimaryFocus) {
@@ -1480,7 +1511,7 @@ class _UnitConversionState extends State<UnitConversion> {
                               ),
                             ],
                           ),
-//VOLUME
+                          //VOLUME
                           Row(
                             children: [
                               Expanded(
@@ -1638,7 +1669,13 @@ class _UnitConversionState extends State<UnitConversion> {
                                                 const TextStyle(fontSize: 20)),
                                         child: const Text(('Convert Now!')),
                                         onPressed: () {
-                                          calculateVol(volumeController.text);
+                                          if (volumeController.text.isEmpty) {
+                                            volumeController.dispose;
+                                            outputLength = '';
+                                          } else {
+                                            calculateVol(volumeController.text);
+                                          }
+
                                           FocusScopeNode currentFocus =
                                               FocusScope.of(context);
                                           if (!currentFocus.hasPrimaryFocus) {
@@ -1719,21 +1756,22 @@ class _UnitConversionState extends State<UnitConversion> {
                       ),
                     ),
                   ),
-                ],
-              ), //Above is for tab 1
+                ),
+              ],
+            ), //Above is for tab 1
 
-              //THIS IS FOR TAB 2
-              Row(children: [
-                Expanded(
-                    child: Column(
+            //THIS IS FOR TAB 2
+            Row(children: [
+              Expanded(
+                child: Column(
                   children: [
-                    const Padding(padding: EdgeInsets.fromLTRB(20, 5, 20, 20)),
+                    //const Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 0)),
                     Row(
                       children: [
                         Expanded(
                             child: Container(
                                 padding:
-                                    const EdgeInsets.fromLTRB(25, 5, 20, 5),
+                                    const EdgeInsets.fromLTRB(25, 30, 20, 10),
                                 child: Text(
                                   'Temperature',
                                   style: GoogleFonts.poppins(
@@ -1774,7 +1812,7 @@ class _UnitConversionState extends State<UnitConversion> {
                         )),
                       ],
                     ),
-//ROW for tab 2, from-to
+                    //ROW for tab 2, from-to
                     Row(
                       children: [
                         Expanded(
@@ -1944,14 +1982,15 @@ class _UnitConversionState extends State<UnitConversion> {
                       ],
                     ),
                   ],
-                ))
-              ]),
-              // Thats the end for Tab 2
+                ),
+              )
+            ]),
+            // Thats the end for Tab 2
 
-              // Tab 3
-              Row(children: [
-                Expanded(
-                    child: Column(
+            // Tab 3
+            Row(children: [
+              Expanded(
+                child: Column(
                   children: [
                     const Padding(padding: EdgeInsets.fromLTRB(20, 5, 20, 20)),
                     Row(
@@ -1973,39 +2012,33 @@ class _UnitConversionState extends State<UnitConversion> {
                     Row(
                       children: [
                         Expanded(
-                            child: Container(
-                          // margin: const EdgeInsets.fromLTRB(20, 10, 0, 10),
-                          // color: Colors.amber,
-                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
-
-                          child: TextFormField(
-                            onTap: () {
-                              setState(() {
-                                lengthController.text = "updated value";
-                              });
-                            },
-                            maxLength: 20,
-                            controller: BaseController,
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
-                              signed: true,
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
+                            child: TextFormField(
+                              maxLength: 20,
+                              controller: BaseController,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                decimal: true,
+                                signed: true,
+                              ),
+                              inputFormatters: [
+                                DecimalTextInputFormatter(),
+                                FilteringTextInputFormatter.deny(
+                                    RegExp(r'[\s\,[\.\.]]')),
+                              ],
+                              decoration: const InputDecoration(
+                                  labelText: 'Enter a value',
+                                  hintStyle: TextStyle(fontSize: 10),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)))),
                             ),
-                            inputFormatters: [
-                              DecimalTextInputFormatter(),
-                              FilteringTextInputFormatter.deny(
-                                  RegExp(r'[\s\,[\.\.]]')),
-                            ],
-                            decoration: const InputDecoration(
-                                labelText: 'Enter a value',
-                                hintStyle: TextStyle(fontSize: 10),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0)))),
                           ),
-                        )),
+                        ),
                       ],
                     ),
-//ROW for tab 3, from-to
+                    //ROW for tab 3, from-to
                     Row(
                       children: [
                         Expanded(
@@ -2175,10 +2208,12 @@ class _UnitConversionState extends State<UnitConversion> {
                       ],
                     ),
                   ],
-                ))
-              ]),
-            ],
-          )),
+                ),
+              )
+            ]),
+          ],
+        ),
+      ),
     );
   }
 }

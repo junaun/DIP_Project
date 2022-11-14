@@ -118,7 +118,7 @@ class MathBox extends StatelessWidget {
                 name: 'clearable',
                 onMessageReceived: (JavascriptMessage message) {
                   mathModel.changeClearable(
-                      message.message == 'false' ? false : true);
+                      message.message == 'false' ? false : true, context);
                 }),
             JavascriptChannel(
                 name: 'parsed_latex',

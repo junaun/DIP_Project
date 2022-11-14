@@ -1,13 +1,16 @@
 import 'package:calculator/backend/editablePage.dart';
 import 'package:calculator/backend/slideKeyboard.dart';
 import 'package:calculator/buttonBox.dart';
+//import 'package:calculator/customPage.dart';
 import 'package:calculator/customPage.dart';
 import 'package:calculator/diffrentiation.dart';
 import 'package:calculator/displayBox.dart';
 import 'package:calculator/containerHistory.dart';
+import 'package:calculator/matrix.dart';
 import 'package:calculator/settings.dart';
 import 'package:calculator/equations.dart';
 import 'package:calculator/plotting/Plotted_type.dart';
+import 'package:calculator/equation/equation_type.dart' as equation_types;
 import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/FontProvider.dart';
 import 'package:calculator/services/ConstantProvider.dart';
@@ -29,6 +32,8 @@ import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/slidcomponent.dart';
 import 'package:calculator/robot/SpeechScreen.dart';
 import 'package:calculator/robot/test.dart' as test;
+
+import 'customPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -148,10 +153,7 @@ class _HomePageState extends State<HomePage>
                   });
             }),
             title: Text(
-                Provider.of<ConstantProvider>(context, listen: false)
-                    .allUsers
-                    .elementAt(0)
-                    .quantity,
+                Provider.of<LangProvider>(context, listen: false).homeBar,
                 style: TextStyle(
                     fontSize: Provider.of<FontProvider>(context).fontSize)),
             backgroundColor: Provider.of<ColorProvider>(context).getColor(),
@@ -166,7 +168,7 @@ class _HomePageState extends State<HomePage>
                       ),
                       PopupMenuItem<int>(
                         value: 1,
-                        child: Text("Physical Constants"),
+                        child: Text("Matrix"),
                       ),
                       PopupMenuItem<int>(
                         value: 2,
@@ -186,19 +188,23 @@ class _HomePageState extends State<HomePage>
                       ),
                       PopupMenuItem<int>(
                         value: 6,
-                        child: Text("Constants"),
+                        child: Text("Physical Constants"),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 7,
+                        child: Text("History"),
                       ),
                     ];
                   },
                   onSelected: (value) {
                     if (value == 0) {
                       if (Provider.of<LockProvider>(context, listen: false)
-                          .getLockEquation()) {
+                          .isLockEquation) {
                         showDialog<String>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             title: const Text('Access Denied'),
-                            content: const Text('Equation is locked'),
+                            content: const Text('This Function is locked'),
                             actions: <Widget>[
                               TextButton(
                                 onPressed: () => Navigator.pop(context, 'OK'),
@@ -211,22 +217,56 @@ class _HomePageState extends State<HomePage>
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EquationApp()),
+                              builder: (context) =>
+                                  const equation_types.Typeselection()),
                         );
                       }
                     } else if (value == 1) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const customPage()),
-                      );
+                      if (Provider.of<LockProvider>(context, listen: false)
+                          .isLockEquation) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Access Denied'),
+                            content: const Text('This Function is locked'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Matrices()),
+                        );
+                      }
                     } else if (value == 2) {
-                      print("graph plotting is selected.");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Typeselection()),
-                      );
+                      if (Provider.of<LockProvider>(context, listen: false)
+                          .isLockPlot) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Access Denied'),
+                            content: const Text('This Function is locked'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, 'OK'),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Typeselection()),
+                        );
+                      }
                     } else if (value == 3) {
                       print("unitconversion is selected.");
                       Navigator.push(
@@ -240,18 +280,26 @@ class _HomePageState extends State<HomePage>
                     } else if (value == 5) {
                       //print("unitconversion is selected.");
                       //setting.changeInitpage(0);
-                      _query();
+
                       mode.changeMode(Mode.Basic);
                     } else if (value == 6) {
                       //print("unitconversion is selected.");
                       //setting.changeInitpage(0);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => EditablePage()),
+                        MaterialPageRoute(builder: (context) => customPage()),
+                      );
+                    } else if (value == 7) {
+                      //print("unitconversion is selected.");
+                      //setting.changeInitpage(0);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ContainerHistory()),
                       );
                     } else {
                       //mode.changeMode(Mode.Basic);
-                      setting.changeInitpage(0);
+                      //setting.changeInitpage(0);
                     }
                   }),
             ],

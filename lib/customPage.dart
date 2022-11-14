@@ -1,3 +1,4 @@
+import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/ConstantProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,8 @@ class _customPageState extends State<customPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:
+            Provider.of<ColorProvider>(context, listen: false).color,
         title: Text("Constant Table"),
         centerTitle: true,
       ),
@@ -32,6 +35,8 @@ class _customPageState extends State<customPage> {
           child: Column(children: [
         DataTable(
           border: TableBorder.all(color: Colors.black),
+          headingRowColor:
+              MaterialStateProperty.all(Color.fromARGB(255, 147, 141, 150)),
           columns: [
             DataColumn(
               label: Text(

@@ -32,28 +32,9 @@ class KeyBoard2 extends StatelessWidget {
     //     },
     //   ));
     // }
-    for (var i = 0; i < 10; i++) {
-      button.add(TextButton(
-        child: Text(Provider.of<ConstantProvider>(context, listen: false)
-            .allUsers
-            .elementAt(i)
-            .unit),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
-          foregroundColor: MaterialStateProperty.all(Colors.black),
-        ),
-        onPressed: () {
-          String value = Provider.of<ConstantProvider>(context, listen: false)
-              .allUsers
-              .elementAt(i)
-              .value;
-          mathBoxController.addString('$value');
-        },
-      ));
-    }
 
     button.add(TextButton(
-      child: Math.tex("nroots", textStyle: TextStyle(fontSize: 20)),
+      child: Math.tex("nroots", textStyle: TextStyle(fontSize: 16)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -86,7 +67,7 @@ class KeyBoard2 extends StatelessWidget {
     ));
     button.add(TextButton(
       child:
-          Math.tex(r'\frac{d}{dx}\square', textStyle: TextStyle(fontSize: 18)),
+          Math.tex(r'\frac{d}{dx}\square', textStyle: TextStyle(fontSize: 16)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -101,10 +82,30 @@ class KeyBoard2 extends StatelessWidget {
         mathBoxController.addKey('Left');
       },
     ));
-    button.add(MyButton(
-      child: Text('x'),
+    button.add(TextButton(
+      child: Math.tex(r'lim_{x\to\square}', textStyle: TextStyle(fontSize: 16)),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
+        foregroundColor: MaterialStateProperty.all(Colors.black),
+      ),
       onPressed: () {
+        mathBoxController.addExpression('\\lim');
+        mathBoxController.addExpression('_');
         mathBoxController.addExpression('x');
+        mathBoxController.addExpression('\\\\to');
+        mathBoxController.addExpression('\\infty');
+        mathBoxController.addKey('Right');
+        mathBoxController.addExpression('(');
+      },
+    ));
+
+    button.add(MyButton(
+      child: Icon(Icons.backspace),
+      onPressed: mathBoxController.deleteExpression,
+      onLongPress: () async {
+        mathBoxController.deleteAllExpression();
+        await mathBoxController.clearAnimationController?.forward();
+        mathBoxController.clearAnimationController?.reset();
       },
     ));
     button.add(TextButton(
@@ -122,7 +123,7 @@ class KeyBoard2 extends StatelessWidget {
       },
     ));
     button.add(TextButton(
-      child: Math.tex(r'polar{}', textStyle: TextStyle(fontSize: 20)),
+      child: Math.tex(r'polar{}', textStyle: TextStyle(fontSize: 16)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -133,7 +134,7 @@ class KeyBoard2 extends StatelessWidget {
       },
     ));
     button.add(TextButton(
-      child: Math.tex(r'partfrac', textStyle: TextStyle(fontSize: 13)),
+      child: Math.tex(r'partfrac', textStyle: TextStyle(fontSize: 16)),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
         foregroundColor: MaterialStateProperty.all(Colors.black),
@@ -143,20 +144,11 @@ class KeyBoard2 extends StatelessWidget {
         mathBoxController.addExpression('(');
       },
     ));
-    button.add(TextButton(
-      child: Math.tex(r'lim_{x\to\square}', textStyle: TextStyle(fontSize: 18)),
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
-        foregroundColor: MaterialStateProperty.all(Colors.black),
-      ),
+
+    button.add(MyButton(
+      child: Text('x'),
       onPressed: () {
-        mathBoxController.addExpression('\\lim');
-        mathBoxController.addExpression('_');
         mathBoxController.addExpression('x');
-        mathBoxController.addExpression('\\\\to');
-        mathBoxController.addExpression('\\infty');
-        mathBoxController.addKey('Right');
-        mathBoxController.addExpression('(');
       },
     ));
     button.add(MyButton(
@@ -165,15 +157,29 @@ class KeyBoard2 extends StatelessWidget {
         mathBoxController.addExpression('i');
       },
     ));
-    button.add(MyButton(
-      child: Icon(Icons.backspace),
-      onPressed: mathBoxController.deleteExpression,
-      onLongPress: () async {
-        mathBoxController.deleteAllExpression();
-        await mathBoxController.clearAnimationController?.forward();
-        mathBoxController.clearAnimationController?.reset();
-      },
-    ));
+
+    for (var i = 0; i < 10; i++) {
+      button.add(TextButton(
+        child: Text(
+          Provider.of<ConstantProvider>(context, listen: false)
+              .allUsers
+              .elementAt(i)
+              .unit,
+          style: TextStyle(fontSize: 18),
+        ),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
+          foregroundColor: MaterialStateProperty.all(Colors.black),
+        ),
+        onPressed: () {
+          String value = Provider.of<ConstantProvider>(context, listen: false)
+              .allUsers
+              .elementAt(i)
+              .value;
+          mathBoxController.addString('$value');
+        },
+      ));
+    }
 
     return button;
   }

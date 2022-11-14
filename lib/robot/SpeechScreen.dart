@@ -9,11 +9,13 @@ import 'package:calculator/services/ColorProvider.dart';
 import 'package:calculator/services/FontProvider.dart';
 import 'package:calculator/services/LockProvider.dart';
 import 'package:calculator/services/LangProvider.dart';
+import 'package:calculator/equation/equation_type.dart' as equation_types;
 
 //import 'buttons.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 import '../equations.dart';
+import '../plotting/Plotted_type.dart';
 
 // class MyApp extends StatelessWidget {
 //   @override
@@ -130,16 +132,19 @@ class _SpeechScreenState extends State<SpeechScreen> {
 
   String speechPage(String inputText) {
     if (inputText.contains("equation")) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const EquationApp()));
-      return "Ok! The color is changed to blue.";
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const equation_types.Typeselection()),
+      );
+      return "Ok! Lets go to equation.";
     } else if (inputText.contains("graph plotting")) {
-      Provider.of<ColorProvider>(context, listen: false)
-          .changeColor(Colors.red);
-      return "Ok! The color is changed to red.";
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Typeselection()),
+      );
+      return "Ok! Lets go to plotting.";
     } else if (inputText.contains("matrix")) {
-      Provider.of<ColorProvider>(context, listen: false)
-          .changeColor(Colors.yellow);
       return "Ok! The color is changed to Yellow.";
     } else if (inputText.contains("integration")) {
       Provider.of<ColorProvider>(context, listen: false)
@@ -155,33 +160,34 @@ class _SpeechScreenState extends State<SpeechScreen> {
   }
 
   String speechColor(String inputText) {
-    if (inputText.contains("blue")) {
+    if (inputText.contains("blue") || inputText.contains("Blue")) {
       Provider.of<ColorProvider>(context, listen: false)
           .changeColor(Colors.blue);
       return "Ok! The color is changed to blue.";
-    } else if (inputText.contains("red")) {
+    } else if (inputText.contains("red") || inputText.contains("Red")) {
       Provider.of<ColorProvider>(context, listen: false)
           .changeColor(Colors.red);
       return "Ok! The color is changed to red.";
     } else if (inputText.contains(
-      "Yellow",
-    )) {
+          "yellow",
+        ) ||
+        inputText.contains("Yellow")) {
       Provider.of<ColorProvider>(context, listen: false)
           .changeColor(Colors.yellow);
       return "Ok! The color is changed to Yellow.";
-    } else if (inputText.contains("green")) {
+    } else if (inputText.contains("green") || inputText.contains("green")) {
       Provider.of<ColorProvider>(context, listen: false)
           .changeColor(Colors.green);
       return "Ok! The color is changed to green.";
-    } else if (inputText.contains("purple")) {
+    } else if (inputText.contains("purple") || inputText.contains("Purple")) {
       Provider.of<ColorProvider>(context, listen: false)
           .changeColor(Colors.purple);
       return "Ok! The color is changed to blue.";
-    } else if (inputText.contains("pink")) {
+    } else if (inputText.contains("pink") || inputText.contains("Pink")) {
       Provider.of<ColorProvider>(context, listen: false)
           .changeColor(Colors.pink);
       return "Ok! The color is changed to pink.";
-    } else if (inputText.contains("white")) {
+    } else if (inputText.contains("white") || inputText.contains("White")) {
       Provider.of<ColorProvider>(context, listen: false)
           .changeColor(Colors.white);
       return "Ok! The color is changed to white.";
@@ -203,38 +209,49 @@ class _SpeechScreenState extends State<SpeechScreen> {
   }
 
   String analyzeSpeech(String inputText) {
-    if (inputText.contains(RegExp(r'[0-9]', caseSensitive: false))) {
+    if (inputText.contains(RegExp(r'[0-9]', caseSensitive: false)) ||
+        inputText.contains(RegExp(r'.*What is', caseSensitive: false))) {
       return speechCalculate(inputText);
     } else if (inputText
             .contains(RegExp('change color', caseSensitive: false)) ||
-        inputText.contains(RegExp('change collar', caseSensitive: false))) {
+        inputText.contains(RegExp('change the color', caseSensitive: false))) {
       return speechColor(inputText);
     } else if (inputText.contains(RegExp('font size', caseSensitive: false)) ||
         inputText.contains(RegExp('the words', caseSensitive: false))) {
       return speechFont(inputText);
     } else if (inputText.contains(RegExp('open', caseSensitive: false)) ||
-        inputText.contains(RegExp('page', caseSensitive: false))) {
+        inputText.contains(RegExp('page', caseSensitive: false)) ||
+        inputText.contains(RegExp('Go to', caseSensitive: false))) {
       return speechPage(inputText);
     } else {
-      return "input is null";
+      return inputText;
+      //return "Sorry, I don't under your commands.";
     }
   }
 
   String speechCalculate(String userInput) {
+    // if (userInput.contains(RegExp("What is", caseSensitive: false))) {
+    //   userInput = userInput.substring(7);
+    // }
     String finaluserinput = userInput;
-    finaluserinput = finaluserinput.replaceAll('x', '*');
-    finaluserinput = userInput.replaceAll('', '*');
-    String answer = "null";
+    print("input is " + userInput);
+
+    finaluserinput =
+        userInput.replaceAll(RegExp(String.fromCharCode(215)), '*');
+    finaluserinput = userInput.replaceAll(RegExp(r'÷'), '/');
+    print(String.fromCharCode(215));
+    //String answer = "null";
     Parser p = Parser();
     Expression exp = p.parse(finaluserinput);
     ContextModel cm = ContextModel();
     double eval = exp.evaluate(EvaluationType.REAL, cm);
     if (eval == null) {
-      return "Paiseh, no idea what you said";
+      return userInput;
+      //return "Sorry, no idea what you said";
     }
     // answer = eval.toString();
     //return userInput;
-    return eval.toString();
+    return userInput + " = " + eval.toString();
   }
 
   void _listen() async {
@@ -248,9 +265,9 @@ class _SpeechScreenState extends State<SpeechScreen> {
         _speech.listen(
           onResult: (val) => setState(() {
             String inputText = val.recognizedWords;
-            _text = inputText + " = " + analyzeSpeech(inputText);
-            //_text = val.recognizedWords;
-
+            //_text = inputText + " = " + analyzeSpeech(inputText);
+            //_text = inputText;
+            _text = analyzeSpeech(inputText);
             if (val.hasConfidenceRating && val.confidence > 0) {
               _confidence = val.confidence;
             }

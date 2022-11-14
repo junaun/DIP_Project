@@ -1,7 +1,9 @@
+import 'package:calculator/plotting/History.dart';
+import 'package:calculator/services/HistoryProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:linalg/linalg.dart';
-
+import 'package:provider/provider.dart';
 import 'package:calculator/backend/latex.dart';
 
 class MathModel with ChangeNotifier {
@@ -25,10 +27,12 @@ class MathModel with ChangeNotifier {
     }
   }
 
-  void changeClearable(bool b) {
+  void changeClearable(bool b, BuildContext context) {
     _isClearable = b;
     if (_isClearable && _expression.isNotEmpty) {
       _expressionHistory.add(_expression);
+      Provider.of<HistoryProvider>(context, listen: false)
+          .update(_expression, _result);
       _resultHistory.add(_result);
       _resultIndex = _expressionHistory.length;
       equalAnimation.forward();

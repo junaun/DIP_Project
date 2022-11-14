@@ -6,22 +6,21 @@ import '../customPage.dart';
 class ConstantProvider with ChangeNotifier {
   List<User> allUsers = <User>[
     User(quantity: 'Gravitational Acceleration', value: '9.8', unit: 'g'),
-    User(quantity: 'Mass of Earth', value: '5.97 x 10^24', unit: 'kg'),
-    User(quantity: 'Unit gas constant', value: '8.314', unit: 'J/mol K'),
+    User(quantity: 'Boltzmann constant', value: '1.38*10^{-23}', unit: 'Kb'),
+    User(quantity: 'Coulomb Constant', value: '0.98*10^{-23} ', unit: 'Ke'),
+    User(quantity: 'Acceleration due to gravitity', value: '9.81', unit: 'g'),
+    User(quantity: 'Speed of light', value: '3 x 10^8', unit: 'c'),
+    User(quantity: 'electron charge', value: '-1.602*10^{-19}', unit: 'e'),
+    User(quantity: 'electronic mass', value: '9.109*10^{-31}', unit: 'm(e)'),
     User(
-        quantity: 'Acceleration due to gravitity',
-        value: '9.81',
-        unit: 'm/s\u00B2'),
-    User(quantity: 'Speed of light', value: '3 x 10^8', unit: 'm/s'),
-    User(quantity: 'electron charge', value: '-1.602 x 10^-19', unit: 'C'),
-    User(quantity: 'electron rest mass', value: '9.109 x 10^-31', unit: 'kg'),
-    User(quantity: "planck's constant", value: '6.626 x 10^-34', unit: 'J/s'),
-    User(quantity: 'atomic mass constant', value: '1.66 x 10^-27', unit: 'kg'),
+        quantity: "planck's constant", value: '6.626*10^{-34}', unit: 'Planck'),
+    User(quantity: 'atomic mass constant', value: '1.66*10^{-27}', unit: 'M'),
     User(
-        quantity: 'Gravitational Constant',
-        value: '6.674 x 10^-11',
-        unit: 'Nm\u00B2/kg\u00B2'),
+        quantity: 'Newton Gravitation Constant',
+        value: '6.674*10^{-11}',
+        unit: 'G'),
   ];
+
   update(List<User> users) {
     this.allUsers = users;
     notifyListeners();

@@ -1,6 +1,7 @@
 import 'package:calculator/backend/settingpage.dart';
 import 'package:calculator/services/LangProvider.dart';
 import 'package:calculator/services/LockProvider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:units_converter/properties/torque.dart';
 import 'package:calculator/utils/my_flutter_app_icons.dart';
 import 'containerHistory.dart';
@@ -79,12 +80,6 @@ class _SideBarState extends State<SideBar> {
                   onTap: () {
                     colorPicker(context);
                   }),
-              ListTile(
-                title: const Text("Mode Toggle"),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
             ],
           ),
           ExpansionTile(
@@ -112,25 +107,25 @@ class _SideBarState extends State<SideBar> {
                 trailing: Text(
                     '${Provider.of<SettingModel>(context, listen: false).precision.toInt()}'),
               ),
-              ListTile(
-                title: const Text("Change Font Style"),
-                onTap: () {
-                  Provider.of<FontProvider>(context, listen: false)
-                      .changeFontFamily("Regular");
-                },
-              ),
+              // ListTile(
+              //   title: const Text("Change Font Style"),
+              //   onTap: () {
+              //     Provider.of<FontProvider>(context, listen: false)
+              //         .changeFontFamily("Regular");
+              //   },
+              // ),
             ],
           ),
           ExpansionTile(
             title: Text(Provider.of<LangProvider>(context).langSetting),
-            leading: const Icon(Icons.language),
+            leading: const Icon(Icons.translate),
             trailing: const Icon(Icons.arrow_drop_down),
             childrenPadding: const EdgeInsets.only(left: 60),
             children: [
               ListTile(
                 title: const Text("English"),
                 leading: const Icon(
-                  Icons.language,
+                  Icons.language_sharp,
                 ),
                 onTap: () {
                   Provider.of<LangProvider>(context, listen: false).change2EN();
@@ -139,7 +134,7 @@ class _SideBarState extends State<SideBar> {
               ListTile(
                 title: const Text("简体中文"),
                 leading: const Icon(
-                  Icons.language,
+                  Icons.language_sharp,
                 ),
                 onTap: () {
                   Provider.of<LangProvider>(context, listen: false)
@@ -151,30 +146,138 @@ class _SideBarState extends State<SideBar> {
           ExpansionTile(
             title: Text(Provider.of<LangProvider>(context).modeSetting),
             leading: const Icon(Icons.school),
+
             trailing: const Icon(Icons.arrow_drop_down),
             childrenPadding: const EdgeInsets.only(left: 60),
             children: [
               ListTile(
-                title: const Text("lock"),
-                leading: const Icon(
-                  Icons.school,
-                ),
-                onTap: () {
-                  Provider.of<LockProvider>(context, listen: false)
-                      .lockEquation();
-                },
-              ),
+                  title: const Text("Exam Mode"),
+                  leading: const Icon(
+                    Icons.school,
+                  ),
+                  trailing: Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        // overrides the default green color of the track
+                        activeColor:
+                            Provider.of<ColorProvider>(context, listen: false)
+                                .color,
+                        // color of the round icon, which moves from right to left
+                        thumbColor: Colors.grey,
+                        // when the switch is off
+                        trackColor: Colors.black12,
+                        // boolean variable value
+                        value: Provider.of<LockProvider>(context, listen: false)
+                            .isLockEquation,
+                        // changes the state of the switch
+                        onChanged: (value) => setState(() =>
+                            Provider.of<LockProvider>(context, listen: false)
+                                .lockAll(value)),
+                      ))
+                  // onTap: () {
+                  //   Provider.of<LockProvider>(context, listen: false)
+                  //       .lockEquation();
+                  // },
+                  ),
               ListTile(
-                title: const Text("unlock"),
-                leading: const Icon(
-                  Icons.school,
-                ),
-                onTap: () {
-                  Provider.of<LockProvider>(context, listen: false)
-                      .unlockEquation();
-                },
-              ),
+                  title: const Text("Lock Equation"),
+                  leading: const Icon(
+                    Icons.school,
+                  ),
+                  trailing: Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        // overrides the default green color of the track
+                        activeColor:
+                            Provider.of<ColorProvider>(context, listen: false)
+                                .color,
+                        // color of the round icon, which moves from right to left
+                        thumbColor: Colors.grey,
+                        // when the switch is off
+                        trackColor: Colors.black12,
+                        // boolean variable value
+                        value: Provider.of<LockProvider>(context, listen: false)
+                            .isLockEquation,
+                        // changes the state of the switch
+                        onChanged: (value) => setState(() =>
+                            Provider.of<LockProvider>(context, listen: false)
+                                .lockEquation(value)),
+                      ))
+                  // onTap: () {
+                  //   Provider.of<LockProvider>(context, listen: false)
+                  //       .lockEquation();
+                  // },
+                  ),
+              ListTile(
+                  title: const Text("Lock Matrix"),
+                  leading: const Icon(
+                    Icons.school,
+                  ),
+                  trailing: Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        // overrides the default green color of the track
+                        activeColor:
+                            Provider.of<ColorProvider>(context, listen: false)
+                                .color,
+                        // color of the round icon, which moves from right to left
+                        thumbColor: Colors.grey,
+                        // when the switch is off
+                        trackColor: Colors.black12,
+                        // boolean variable value
+                        value: Provider.of<LockProvider>(context, listen: false)
+                            .isLockMatrix,
+                        // changes the state of the switch
+                        onChanged: (value) => setState(() =>
+                            Provider.of<LockProvider>(context, listen: false)
+                                .lockMatrix(value)),
+                      ))
+                  // onTap: () {
+                  //   Provider.of<LockProvider>(context, listen: false)
+                  //       .lockEquation();
+                  // },
+                  ),
+              ListTile(
+                  title: const Text("Lock Graph Plot"),
+                  leading: const Icon(
+                    Icons.school,
+                  ),
+                  trailing: Transform.scale(
+                      scale: 0.8,
+                      child: CupertinoSwitch(
+                        // overrides the default green color of the track
+                        activeColor:
+                            Provider.of<ColorProvider>(context, listen: false)
+                                .color,
+                        // color of the round icon, which moves from right to left
+                        thumbColor: Colors.grey,
+                        // when the switch is off
+                        trackColor: Colors.black12,
+                        // boolean variable value
+                        value: Provider.of<LockProvider>(context, listen: false)
+                            .isLockPlot,
+                        // changes the state of the switch
+                        onChanged: (value) => setState(() =>
+                            Provider.of<LockProvider>(context, listen: false)
+                                .lockPlot(value)),
+                      ))
+                  // onTap: () {
+                  //   Provider.of<LockProvider>(context, listen: false)
+                  //       .lockEquation();
+                  // },
+                  ),
             ],
+
+            // ListTile(
+            //   title: const Text("unlock"),
+            //   leading: const Icon(
+            //     Icons.school,
+            //   ),
+            //   onTap: () {
+            //     Provider.of<LockProvider>(context, listen: false)
+            //         .unlockEquation();
+            //   },
+            // ),
           ),
           ExpansionTile(
             title: Text(Provider.of<LangProvider>(context).angleSetting),
@@ -185,7 +288,7 @@ class _SideBarState extends State<SideBar> {
               ListTile(
                 title: const Text("Rad"),
                 leading: const Icon(
-                  Icons.r_mobiledata,
+                  Icons.text_rotation_angledown,
                 ),
                 onTap: () {
                   Provider.of<SettingModel>(context, listen: false)
@@ -193,9 +296,9 @@ class _SideBarState extends State<SideBar> {
                 },
               ),
               ListTile(
-                title: const Text("degree"),
+                title: const Text("Degree"),
                 leading: const Icon(
-                  Icons.rotate_90_degrees_ccw,
+                  Icons.text_rotation_angledown,
                 ),
                 onTap: () {
                   Provider.of<SettingModel>(context, listen: false)

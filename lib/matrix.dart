@@ -260,6 +260,10 @@ class _SecondScreenState extends State<SecondScreen>
       print('output matrix is $outputMatrix');
       setState(() {
         outputMatrix = '$finalMatrix';
+        outputMatrix = outputMatrix.replaceAll('Array', '');
+        outputMatrix = outputMatrix.replaceAll('2d', '');
+        outputMatrix = outputMatrix.replaceAll('(', '');
+        outputMatrix = outputMatrix.replaceAll(')', '');
       });
       matrixValues = [];
       // stringToDouble.clear();

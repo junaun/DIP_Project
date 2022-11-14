@@ -20,6 +20,12 @@ class LangProvider with ChangeNotifier {
   String cubic = "Cubic";
   String quartic = "Quartic";
   String complicatedfunctions = "Complicated Functions";
+  String simulequation = "Simultaneous Equations";
+  String calculus = "Calculus";
+  String diffrentiation = "Differentiation";
+  String integration = "Integration";
+  String twounknown = "Two Unknowns";
+  String threeunknown = "Three Unknowns";
 
   LangProvider() {
     //homeBar = "Smart Calculator";
@@ -44,6 +50,12 @@ class LangProvider with ChangeNotifier {
     cubic = "三次函数";
     quartic = "四次函数";
     complicatedfunctions = "复杂函数";
+    simulequation = "多项式";
+    calculus = "算术";
+    diffrentiation = "求导";
+    integration = "积分";
+    twounknown = "二未知数";
+    threeunknown = "三未知数";
     notifyListeners();
   }
 
@@ -64,6 +76,12 @@ class LangProvider with ChangeNotifier {
     cubic = "Cubic";
     quartic = "Quartic";
     complicatedfunctions = "Complicated Functions";
+    simulequation = "Simultaneous Equations";
+    calculus = "Calculus";
+    diffrentiation = "Differentiation";
+    integration = "Integration";
+    twounknown = "Two Unknowns";
+    threeunknown = "Three Unknowns";
 
     notifyListeners();
   }
